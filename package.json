@@ -2,7 +2,7 @@
   "name": "xianyun",
   "version": "1.0.0",
   "description": "My swell Nuxt.js project",
-  "author": "诸葛建国",
+  "author": "",
   "private": true,
   "scripts": {
     "dev": "nuxt",
