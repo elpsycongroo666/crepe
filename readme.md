@@ -39,7 +39,7 @@ npm run dev && yarn dev
 │   └── styles
 │       ├── main.less
 │       ├── reset.less
-│       └── variables.less
+│       └── variables.less //less变量网站主题
 ├── components
 │   ├── air
 │   │   ├── flightsAside.vue
@@ -80,7 +80,7 @@ npm run dev && yarn dev
 │   ├── axios.js
 │   ├── element-ui.js
 │   ├── localStorage.js
-│   └── tool.js
+│   └── tool.js //工具类
 ├── readme.md
 ├── static
 │   └── images
