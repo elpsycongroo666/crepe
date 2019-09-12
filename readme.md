@@ -6,8 +6,9 @@
 
 ```
 ssh-keygen -t rsa -C "你的github邮箱"
-回车后键入 id_rsa.xxx(xxx随意) 后面全部回车
-cd ～/.ssh 查看is_ras.test.pub下的key发送给组长
+回车后键入 id_rsa.crepe 后面全部回车
+cd ～/.ssh
+is_ras.crepe.pub
 ```
 
 # 项目运行
