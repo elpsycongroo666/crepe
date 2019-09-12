@@ -31,7 +31,8 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less'],
+  //quill/dist/quill.snow.css 富文本框样式
+  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less', 'quill/dist/quill.snow.css'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -75,6 +76,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend (config, ctx) { }
   }
 }

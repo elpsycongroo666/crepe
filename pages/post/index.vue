@@ -1,8 +1,11 @@
 <template>
   <div style="padding:50px;">
+    <button>
+      <nuxt-link to="/post/create">写游记</nuxt-link>
+    </button>
     <h2>组件递归</h2>
 
-    <Item :data="list"/>
+    <Item :data="list" />
 
   </div>
 </template>
@@ -10,7 +13,7 @@
 <script>
 import Item from "@/components/post/item";
 export default {
-  data(){
+  data () {
     return {
       list: [
         {
@@ -19,18 +22,18 @@ export default {
             {
               title: "男装",
               children: [
-                {title: "秋裤"},
-                {title: "西装", children: [
-                  {title: "领带"},
-                  {title: "皮带"},
-                ]}
+                { title: "秋裤" },
+                {                  title: "西装", children: [
+                    { title: "领带" },
+                    { title: "皮带" },
+                  ]                }
               ]
             },
             {
               title: "女装",
               children: [
-                {title: "裙子"},
-                {title: "比基尼"}
+                { title: "裙子" },
+                { title: "比基尼" }
               ]
             }
           ]
@@ -39,9 +42,9 @@ export default {
         {
           title: "电器",
           children: [
-            {title: "冰箱"},
-            {title: "空调"},
-            {title: "游戏机"}
+            { title: "冰箱" },
+            { title: "空调" },
+            { title: "游戏机" }
           ]
         }
       ]
@@ -55,5 +58,4 @@ export default {
 </script>
 
 <style>
-
 </style>
