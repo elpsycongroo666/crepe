@@ -5,7 +5,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: '世界上最大的旅游网站',
+    title: 'Crepe旅游网',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -39,6 +39,7 @@ export default {
     '@/plugins/element-ui',
     // axios的拦截插件
     '@/plugins/axios',
+    '@/plugins/tool',
     //  本地存储的插件
     { src: '@/plugins/localStorage.js', ssr: false }
   ],
