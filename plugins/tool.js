@@ -1,8 +1,8 @@
 /**
  * @Author: Joe Yao
- * @Date: 2019-09-12 08:52:00
+ * @Date: 2019-09-14 00:09:41
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 23:26:01
+ * @Last Modified time: 2019-09-14 00:09:41
  */
 import Vue from 'vue'
 Vue.prototype.$T = {
@@ -34,7 +34,7 @@ Vue.prototype.$T = {
       }, wait)
     }
   },
-  //节流
+  //节流函数
   throttle(fn, wait) {
     let lastTime = 0
     return function() {
