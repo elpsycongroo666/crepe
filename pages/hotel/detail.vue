@@ -1,8 +1,8 @@
 /**
  * @Author: Super Jane
- * @Date: 2019-09-12 10:37:05
+ * @Date: 2019-09-13 10:38:11
  * @Last Modified by: Super Jane
- * @Last Modified time: 2019-09-12 10:37:05
+ * @Last Modified time: 2019-09-13 1:37:20
  */
 
 
@@ -12,15 +12,16 @@
       <!-- 面包屑导航 -->
       <div class="header_nav">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{path: '/'}">南京酒店</el-breadcrumb-item>
-          <el-breadcrumb-item>南京古都文化酒店（鼓楼店）(如家联盟)</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{}">酒店</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="(val,index) in hotelDetail.breadcrumb"
+                              :key="index">{{val}}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
       <!-- 酒店名字 -->
       <div class="name_info">
-        <h2>南京古都文化酒店（鼓楼店）(如家联盟)
+        <h2>
+          {{hotelDetail.name}}
           <i class="iconfont iconhuangguan"></i>
           <i class="iconfont iconhuangguan"></i>
           <i class="iconfont iconhuangguan"></i>
@@ -28,13 +29,13 @@
           <i class="iconfont iconhuangguan"></i>
 
         </h2>
-        <p>nan jing gu du wen hua hotel （ gu lou dian ）(ru jia lian meng)</p>
+        <p>{{hotelDetail.alias}}</p>
         <i class="iconfont iconlocation"></i>
-        <span>北京东路8号(江苏电视台对面，北京东路与丹凤街交汇处东南角)</span>
+        <span>{{hotelDetail.address}}</span>
       </div>
 
       <!-- 酒店图片 -->
-      <HotelView />
+      <HotelView :data="hotelDetail" />
 
       <!-- 房价来源/房间类型/费用 -->
       <RoomType />
@@ -62,7 +63,12 @@ import HotelComment from '@/components/hotelDetail/hotelComment'
 
 
 export default {
-
+  data () {
+    return {
+      // 酒店详情信息
+      hotelDetail: {}
+    }
+  },
 
   // 注册组件
   components: {
@@ -72,12 +78,28 @@ export default {
     HotelInfo,
     HotelComment
   },
+
   mounted () {
+    // this.$axios({
+    //   url: "/cities",
+    //   params: {
+    //     name: "南京"
+    //   }
+    // }).then(res => {
+    //   console.log(res);
+    // });
     this.$axios({
-      url: "http:127.0.0.1:1337/hotels"
+      url: "/hotels?city=74&enterTime=2019-09-17&leftTime=2019-09-20&_limit=1&_start=0",
+
     }).then(res => {
-      console.log(res);
-    });
+      // console.log(res)
+      this.hotelDetail = res.data.data[0]
+      this.hotelDetail.breadcrumb = this.hotelDetail.breadcrumb.split('>')
+      console.log(this.hotelDetail)
+
+      // // 把数据储存到vuex中
+      this.$store.commit('hotel/setHotelDetail', this.hotelDetail)
+    })
   }
 };
 </script>

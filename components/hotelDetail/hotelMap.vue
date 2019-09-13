@@ -148,7 +148,7 @@ export default {
       map.add([marker1, marker2]);
 
       map.on('mousemove', function (ev) {
-        console.log(ev)
+        // console.log(ev)
         // 触发事件的对象
         var target = ev.target;
         // 触发事件的地理坐标，AMap.LngLat 类型
@@ -163,7 +163,7 @@ export default {
         // console.log()
         // marker2.B.position.lat =ev.lnglat.lat
         // marker2.B.position.lat =ev.lnglat.lat
-        console.log(map)
+        // console.log(map)
 
 
       });
