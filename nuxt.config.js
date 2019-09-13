@@ -61,6 +61,7 @@ export default {
    */
   axios: {
     baseURL: 'http://127.0.0.1:1337' // 新增axios默认请求路径
+    // baseURL: 'http://157.122.54.189:9095'//线上地址
   },
   //配置别名
   alias: {
