@@ -40,6 +40,7 @@ export default {
     // axios的拦截插件
     '@/plugins/axios',
     '@/plugins/tool',
+    '@/plugins/amap',
     //  本地存储的插件
     { src: '@/plugins/localStorage.js', ssr: false }
   ],
