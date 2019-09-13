@@ -36,13 +36,14 @@
       <el-autocomplete v-model="name"
                        :fetch-suggestions="querySearchAsync"
                        placeholder="目的地"
-                       @select="handleSelect"></el-autocomplete>
+                       @select="handleSelect"
+                       :debounce="500"></el-autocomplete>
     </div>
     <!-- /搜索城市 -->
 
     <div class="search__price">
       <el-date-picker class="search__date"
-                      v-model="date"
+                      v-model="name"
                       type="daterange"
                       range-separator="至"
                       start-placeholder="开始日期"
@@ -63,25 +64,50 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
-  components: {},
   data () {
     return {
-      name: '南京',
-      date: null,
-      number: 0,
+      name: '',//城市
+      date: null,//日期
+      number: void 0,//人数
     }
   },
-  computed: {},
-  watch: {},
+  computed: {
+    ...mapState({
+      currentCity: state => state.hotel.currentCity//获取当前城市
+    })
+  },
   methods: {
+    ...mapActions({
+      getCites: 'hotel/getCites'//请求搜索城市数据
+    }),
+    ...mapMutations({
+      SET_SCENICSDATA: 'hotel/SET_SCENICSDATA',//设置城市风景数据
+      SET_CURRENTCITY: 'hotel/SET_CURRENTCITY'//设置当前城市数据
+    }),
+    /* --------------------------公用函数-------------------------------- */
+    formatData (_arr) {
+      return _arr.map(item => {
+        item.value = item.name.replace(/市/, '')
+        return item
+      })
+    },
     /* --------------------------事件处理-------------------------------- */
-    handleSelect () { },
-    querySearchAsync (queryString, cb) { }
+    handleSelect (item) { //选择城市触发
+      this.SET_SCENICSDATA(item.scenics)
+      this.SET_CURRENTCITY(item)
+    },
+    querySearchAsync (queryString, cb) { // 显示搜索建议
+      this.getCites(queryString).then(data => {
+        const newData = this.formatData(data)
+        this.$T.debounce(cb.bind(this, newData), 300)()
+      })
+    }
   },
   mounted () {
-
+    this.name = this.currentCity.name
   }
 }
 </script>

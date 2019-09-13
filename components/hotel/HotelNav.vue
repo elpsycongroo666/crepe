@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 12:57:22
+ * @Last Modified time: 2019-09-13 19:14:37
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -139,6 +139,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'HotelNacv',
   data () {
@@ -150,5 +151,13 @@ export default {
       ]
     }
   },
+  methods: {
+    ...mapState({
+      scenicsData: state => state.hotel.scenicsData
+    })
+  },
+  mounted () {
+    console.log(this.scenicsData)
+  }
 }
 </script>
