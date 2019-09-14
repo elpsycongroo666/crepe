@@ -3,7 +3,7 @@ import {Message} from "element-ui";
 
 export default ( { $axios, redirect } ) => {
 
-    // 错误拦截, onError用于错误拦截    
+    // 错误拦截, onError用于错误拦截
     $axios.onError(res => {
         // 返回的res是一个错误的对象，Error对象下都有一个response的属性可以访问错误的信息
         // console.log(res.response, 123)
@@ -13,7 +13,7 @@ export default ( { $axios, redirect } ) => {
 
         if(statusCode === 400){
             // Message = this.$message
-            Message.error(message)
+            Message.warning(message)
         }
 
         if(statusCode === 401 || statusCode === 403){

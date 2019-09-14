@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import Item from "@/components/post/item";
 export default {
   data () {
     return {
@@ -51,9 +50,6 @@ export default {
     }
   },
 
-  components: {
-    Item
-  }
 }
 </script>
 

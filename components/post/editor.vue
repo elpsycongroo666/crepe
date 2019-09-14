@@ -199,21 +199,21 @@ export default {
 
     //发布文章
     handlePublic () {
-      this.article.time = moment(new Date()).format('YYYY-MM-DD')
+      // this.article.time = moment(new Date()).format('YYYY-MM-DD')
       console.log(this.article);
       this.$axios({
         url: '/posts',
-        type: 'post',
+        method: 'post',
         data: {
           content: this.article.content,
           title: this.article.title,
           city: this.article.departCity
         },
-        // headers: {
-        //   Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
-        // }
+        headers: {
+          Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
+        }
       }).then(res => [
-        // console.log(res),
+        console.log(res),
         this.$message.success('发布成功')
       ]).catch(err => {
         console.log(err)

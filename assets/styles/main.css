@@ -1,18 +1,33 @@
-@import '../styles/reset.less';
-@import '../styles/variables.less';
-
+* {
+  margin: 0;
+  padding: 0;
+}
+ul,
+li,
+ol {
+  list-style: none;
+}
+i,
+em {
+  font-style: normal;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+}
 /* 页面切换时候过渡样式 */
 .page-enter-active,
 .page-leave-active {
   transition: opacity 0.5s;
 }
-
 /* 打开时候过渡样式 */
 .page-enter,
 .page-leave-active {
   opacity: 0;
 }
-
 /* 页面顶部页面加载进度条 */
 .nuxt-progress {
   background: #409eff;
