@@ -32,7 +32,7 @@ export default {
    ** Global CSS
    */
   //quill/dist/quill.snow.css 富文本框样式
-  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less', 'quill/dist/quill.snow.css'],
+  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less'],
   /*
    ** Plugins to load before mounting the App
    */
