@@ -4,7 +4,7 @@ export const state = () => ({
   hotelData: [], //酒店数据
   hotelOptions: {}, //酒店筛选数据
   scenicsData: [], //风景数据
-  currentCity: { id: 74, name: '南京' } // 当前城市
+  currentCity: { id: 74, name: '南京', scenicsData: [] } // 当前城市
 })
 
 export const mutations = {
@@ -32,16 +32,17 @@ export const mutations = {
 export const getters = {}
 export const actions = {
   //获取酒店数据
-  async getHotels({ commit }, params) {
-    this.$axios({
-      url: '/hotels',
+  async getHotels({ commit }, queryStr) {
+    let res = await this.$axios({
+      url: `/hotels?${queryStr}`,
       method: 'GET'
     })
+    commit('SET_HOTELDATA', res.data)
   },
   //获取酒店配置
-  async getOptions({ commit }, queryStr) {
-    let res = this.$axios({
-      url: `/hotels/options?${queryStr}`,
+  async getOptions({ commit }) {
+    let res = await this.$axios({
+      url: '/hotels/options',
       method: 'GET'
     })
     return res

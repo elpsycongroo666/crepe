@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 19:14:37
+ * @Last Modified time: 2019-09-14 09:48:54
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -20,20 +20,35 @@
 }
 .nav__main {
   flex: 1;
+  transition: all 3s;
 }
 .nav__list {
+  overflow: hidden;
 }
 .nav__item {
+  display: inline-block;
+  line-height: 24px;
+  box-sizing: border-box;
+  margin: 0 8px 4px 0;
+  padding: 0 5px;
   font-size: 14px;
   color: @drakTextColor;
+  cursor: pointer;
+  &&:hover {
+    color: @mainColor;
+  }
 }
-.nav__item_on {
+.nuxt-link-exact-active {
   border-radius: 3px;
-  margin: 0 8px 4px 0;
-  padding: 2px 5px;
-  font-weight: 800;
+  font-weight: 600;
   color: #fff;
   background: @mainColor;
+  &&:hover {
+    color: #fff;
+  }
+}
+.nav__toggle {
+  cursor: pointer;
 }
 .nav__toggle-text {
   font-size: 14px;
@@ -84,15 +99,19 @@
       <div class="nav__title">区域:</div>
 
       <div class="nav__main">
-        <div class="nav__list">
-          <a class="nav__item nav__item_on"
-             href="">全部</a>
-          <a class="nav__item"
-             href="">广州</a>
+        <div class="nav__list"
+             :style="styleObj.list">
+          <nuxt-link class="nav__item"
+                     :to="{path:'/hotel',query:{city:currentCity.id}}">全部</nuxt-link>
+          <nuxt-link class="nav__item"
+                     :to="{path:'/hotel',query:{city:item.city,scenic:item.id }}"
+                     v-for="item in scenicsData"
+                     :key="item.id">{{ item.name }}</nuxt-link>
         </div>
-        <div class="nav__toggle">
+        <div class="nav__toggle"
+             @click="handleToggle">
           <i class="el-icon-d-arrow-right nav__icon-down"></i>
-          <span class="nav__toggle-text">展开共15个区域</span>
+          <span class="nav__toggle-text">展开共{{ scenicsData.length }}个区域</span>
         </div>
       </div>
 
@@ -139,7 +158,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'HotelNacv',
   data () {
@@ -148,16 +167,28 @@ export default {
         { id: 1, level: 3, price: 332 },
         { id: 2, level: 4, price: 521 },
         { id: 3, level: 5, price: 768 },
-      ]
+      ],
+      styleObj: {
+        list: {
+          height: '24px'
+        }
+      },
+      toggle: true
     }
   },
-  methods: {
+  computed: {
     ...mapState({
-      scenicsData: state => state.hotel.scenicsData
+      scenicsData: state => state.hotel.scenicsData,
+      currentCity: state => state.hotel.currentCity
     })
   },
+  methods: {
+    handleToggle () {
+      this.toggle = !this.toggle
+      this.styleObj.list.height = this.toggle ? '24px' : 'auto'
+    }
+  },
   mounted () {
-    console.log(this.scenicsData)
   }
 }
 </script>

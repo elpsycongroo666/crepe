@@ -32,7 +32,11 @@ export default {
    ** Global CSS
    */
   //quill/dist/quill.snow.css 富文本框样式
-  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less', 'quill/dist/quill.snow.css'],
+  css: [
+    'element-ui/lib/theme-chalk/index.css',
+    'assets/styles/main.less',
+    'quill/dist/quill.snow.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -61,8 +65,8 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://127.0.0.1:1337' // 新增axios默认请求路径
-    // baseURL: 'http://157.122.54.189:9095'//线上地址
+    // baseURL: 'http://127.0.0.1:1337' // 新增axios默认请求路径
+    baseURL: 'http://157.122.54.189:9095' //线上地址
   },
   //配置别名
   alias: {
@@ -78,6 +82,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) { }
+    extend(config, ctx) {}
   }
 }

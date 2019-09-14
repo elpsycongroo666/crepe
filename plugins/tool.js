@@ -2,10 +2,10 @@
  * @Author: Joe Yao
  * @Date: 2019-09-14 00:09:41
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 00:09:41
+ * @Last Modified time: 2019-09-14 07:52:57
  */
 import Vue from 'vue'
-Vue.prototype.$T = {
+let tool = {
   //过滤空值
   formatObj(_obj) {
     let _result = {}
@@ -45,4 +45,16 @@ Vue.prototype.$T = {
       }
     }
   }
+}
+
+let main = {
+  install(Vue) {
+    Vue.prototype.$T = tool // 变量的内容 后期可以在vue中
+  }
+}
+
+Vue.use(main) // 这里不能丢
+
+export default ({ app }, inject) => {
+  app.$T = tool
 }

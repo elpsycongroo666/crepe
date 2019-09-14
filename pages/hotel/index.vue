@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 23:03:55
+ * @Last Modified time: 2019-09-14 09:21:36
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -92,13 +92,10 @@ import HotelPagination from 'components/hotel/HotelPagination'
 
 export default {
   name: 'hotel',
-  asyncData ({ store, query, redirect }) {
+  async asyncData ({ store, query, redirect }) {
     if (Object.keys(query).length < 1) {
       redirect({ path: '/hotel', query: { city: store.state.hotel.currentCity.id } })
     }
-
-    // store.dispatch('hotel/getHotels', query)
-    // store.dispatch('hotel/getHotels', query)
   },
   components: {
     HotelBar,
@@ -109,8 +106,22 @@ export default {
     HotelList,
     HotelPagination
   },
+  methods: {
+
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      deep: true,
+      handler: function (to, from) { //调用接口发送请求
+        const { query } = to
+        const data = this.$T.parseParam(query)
+        this.$store.dispatch('hotel/getHotels', data)
+      }
+    }
+  },
   mounted () {
-    console.log(this.data)
+    // this.getHotelData()
   }
 }
 </script>
