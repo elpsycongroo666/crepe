@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 13:02:24
+ * @Last Modified time: 2019-09-14 10:22:54
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -79,20 +79,28 @@
   color: @deepTextColor;
 }
 .list__price-item-r {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 50%;
   padding-left: 20px;
   border-left: 1px solid @bdColor;
+}
+.list__price-txt {
 }
 </style>
 <template>
   <!-- S 酒店首页模块 -->
   <div class="list">
 
-    <div class="list__item">
+    <div class="list__item"
+         v-for="item in hotelData.data"
+         :key="item.id">
 
       <div class="list__sider">
         <img class="list__img"
-             :src="pics[0].url"
-             alt="">
+             :src="item.photos"
+             :alt="item.name">
       </div>
       <!-- /酒店图片 -->
 
@@ -103,19 +111,20 @@
 
           <el-col :span="16"
                   class="list__info">
-            <h3 class="list__info-name">
-              <a href="">如家快捷酒店(南京月牙湖银城东苑店)</a>
+            <h3 class="list__info-name"
+                @click="handleClickHotel(item)">
+              {{ item.name }}
             </h3>
-            <p class="list__text-dark">ru jia kuai jie hotel (nan jing yue ya hu yin cheng dong yuan dian)</p>
+            <p class="list__text-dark">{{ item.alias }}</p>
             <el-row class="list__star">
               <el-col :span="10">
                 <el-row type="flex"
                         align="middle">
                   <div class="list__star-bar">
                     <Star :size='36'
-                          :score='5' />
+                          :score='item.stars' />
                   </div>
-                  <div class="list__text-orange">5分</div>
+                  <div class="list__text-orange">{{ item.stars }}分</div>
                 </el-row>
               </el-col>
               <el-col :span="7">
@@ -129,7 +138,7 @@
             </el-row>
             <div class="list__info-position">
               <i class="iconfont iconlocation"></i>
-              <span>位于: 东苑路10号(靠近地铁2号线下马坊站，距离南京农业大学南门300米)</span>
+              <span>位于: {{ item.address }}</span>
             </div>
           </el-col>
           <!-- /酒店信息 -->
@@ -137,13 +146,15 @@
           <el-col :span="8"
                   class="list__price">
             <!-- 循环 -->
-            <el-row class="list__price-item"
+            <el-row v-for="(v,index) in item.products"
+                    :key="index"
+                    class="list__price-item"
                     type="flex"
                     justify="space-between"
                     align="middle">
-              <span class="list__price-item-l">携程</span>
+              <span class="list__price-item-l">{{ v.name }}</span>
               <div class="list__price-item-r">
-                <span class="list__text-orange">¥151</span>
+                <span class="list__text-orange list__price-txt">¥{{ v.price }}</span>
                 <span class="list__text-deep">起</span>
                 <i class="el-icon-arrow-right list__text-orange"></i>
               </div>
@@ -162,6 +173,7 @@
 
 <script>
 import Star from 'components/common/Star'
+import { mapState } from 'vuex'
 export default {
   name: 'HotelList',
   components: {
@@ -188,5 +200,15 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState({
+      hotelData: state => state.hotel.hotelData
+    })
+  },
+  methods: {
+    handleClickHotel (item) {
+      this.$router.push({ path: '/hotel/detail', query: { id: item.id } })
+    }
+  }
 }
 </script>

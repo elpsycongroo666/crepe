@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 09:48:54
+ * @Last Modified time: 2019-09-14 09:53:54
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -158,9 +158,9 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 export default {
-  name: 'HotelNacv',
+  name: 'HotelNav',
   data () {
     return {
       starData: [
