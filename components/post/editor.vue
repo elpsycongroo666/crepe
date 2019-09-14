@@ -70,7 +70,7 @@ if (process.browser) {
   VueEditor = require("vue-word-editor").default;
 }
 export default {
-  name: "app",
+  // name: "app",
   components: {
     VueEditor
   },
@@ -134,7 +134,9 @@ export default {
 
   mounted () {
     // this.posts=localStorage.getItem('posts')
-    this.posts = JSON.parse(localStorage.getItem("posts"))
+    this.posts = JSON.parse(localStorage.getItem("posts")) || []
+    // console.log(this.posts)
+
   },
 
   methods: {
@@ -168,30 +170,26 @@ export default {
     handleDelete (index) {
       // console.log(index)
       // console.log(123)
-      const arr = JSON.parse(localStorage.getItem('posts'))
-      console.log(arr)
+      let arr = JSON.parse(localStorage.getItem('posts'))
+      // console.log(arr)
       arr.forEach((e, i) => {
-        console.log(e)
+        // console.log(e)
         if (index === i) {
-          //删除数据
-          arr.splice(index, 1)
-          //删除的提示
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!',
+          arr.splice(index, 1),
+            //删除的提示
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              //删除数据
+              this.$message({
+                type: 'success',
+                message: '删除成功!',
+              });
+
+              window.location.reload()
             });
-            window.location.reload()
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
-          });
         }
       })
       localStorage.setItem('posts', JSON.stringify(arr))
@@ -200,7 +198,8 @@ export default {
     //发布文章
     handlePublic () {
       // this.article.time = moment(new Date()).format('YYYY-MM-DD')
-      console.log(this.article);
+      // console.log(this.article);
+      console.log(this.posts[index])
       this.$axios({
         url: '/posts',
         method: 'post',
@@ -213,12 +212,10 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => [
-        console.log(res),
-        this.$message.success('发布成功')
-      ]).catch(err => {
-        console.log(err)
-      })
-
+        // console.log(res),
+        this.$message.success('发布成功'),
+        window.location.reload()
+      ])
     },
 
     //选择城市
