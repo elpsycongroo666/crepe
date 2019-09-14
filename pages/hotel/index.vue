@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 09:21:36
+ * @Last Modified time: 2019-09-14 11:11:04
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -81,6 +81,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import HotelBar from 'components/hotel/HotelBar'
 import HotelSearch from 'components/hotel/HotelSearch'
 import HotelNav from 'components/hotel/HotelNav'
@@ -88,8 +89,6 @@ import HotelMap from 'components/hotel/HotelMap'
 import HotelFilter from 'components/hotel/HotelFilter'
 import HotelList from 'components/hotel/HotelList'
 import HotelPagination from 'components/hotel/HotelPagination'
-
-
 export default {
   name: 'hotel',
   async asyncData ({ store, query, redirect }) {
@@ -107,7 +106,14 @@ export default {
     HotelPagination
   },
   methods: {
-
+    ...mapActions({
+      getHotels: 'hotel/getHotels',//请求酒店数据
+      getCites: 'hotel/getCites'//获取城市数据
+    }),
+    ...mapMutations({
+      SET_SCENICSDATA: 'hotel/SET_SCENICSDATA',//设置城市风景数据
+      SET_CURRENTCITY: 'hotel/SET_CURRENTCITY'//设置当前城市数据
+    }),
   },
   watch: {
     '$route': {
@@ -116,12 +122,13 @@ export default {
       handler: function (to, from) { //调用接口发送请求
         const { query } = to
         const data = this.$T.parseParam(query)
-        this.$store.dispatch('hotel/getHotels', data)
+        this.getHotels(data)
+        this.getCites().then(data => {
+          this.SET_SCENICSDATA(data.scenics)
+          this.SET_CURRENTCITY(data)
+        })
       }
     }
-  },
-  mounted () {
-    // this.getHotelData()
   }
 }
 </script>

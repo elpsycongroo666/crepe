@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 10:22:54
+ * @Last Modified time: 2019-09-14 11:35:01
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -68,8 +68,10 @@
   margin-top: 20px;
 }
 .list__price-item {
+  height: 40px;
   padding: 5px 5px;
   border-bottom: 1px solid #ebeef5;
+  box-sizing: border-box;
   &&:hover {
     background-color: #f4f4f4;
   }
@@ -178,27 +180,6 @@ export default {
   name: 'HotelList',
   components: {
     Star
-  },
-  data () {
-    return {
-      pics: [{
-        "url": "https://b4-q.mafengwo.net/s10/M00/69/70/wKgBZ1k_jWqAXOqeAADW4QSEDjU50.jpeg?imageMogr2%2Fthumbnail%2F%21660x480r%2Fgravity%2FCenter%2Fcrop%2F%21660x480%2Fquality%2F90",
-      }],
-      "products": [
-        {
-          "name": "携程",
-          "price": "50040.52"
-        },
-        {
-          "name": "艺龙",
-          "price": "5008.55"
-        },
-        {
-          "name": "Hotels.com",
-          "price": "50059.90"
-        }
-      ]
-    }
   },
   computed: {
     ...mapState({

@@ -2,8 +2,8 @@
 export const state = () => ({
   hotelDetail: {},
   hotelData: [], //酒店数据
-  hotelOptions: {}, //酒店筛选数据
   scenicsData: [], //风景数据
+  hotelOptions: {}, //酒店筛选数据
   currentCity: { id: 74, name: '南京', scenicsData: [] } // 当前城市
 })
 
@@ -45,18 +45,20 @@ export const actions = {
       url: '/hotels/options',
       method: 'GET'
     })
-    return res
+    // commit('SET_HOTELDATA', res.data)
+    const { data } = res.data
+    return data
   },
   //获取城市风景
-  async getCites({ commit }, name) {
+  async getCites({ commit, state }) {
     let res = await this.$axios({
       url: '/cities',
       method: 'GET',
       params: {
-        name
+        name: state.currentCity.name
       }
     })
     const { data } = res.data
-    return data
+    return data[0]
   }
 }

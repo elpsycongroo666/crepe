@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 09:53:54
+ * @Last Modified time: 2019-09-14 11:13:11
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -111,7 +111,7 @@
         <div class="nav__toggle"
              @click="handleToggle">
           <i class="el-icon-d-arrow-right nav__icon-down"></i>
-          <span class="nav__toggle-text">展开共{{ scenicsData.length }}个区域</span>
+          <span class="nav__toggle-text">{{ this.toggle ? '展开' : '收起' }}共{{ scenicsData.length }}个区域</span>
         </div>
       </div>
 

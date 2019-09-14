@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 12:37:19
+ * @Last Modified time: 2019-09-15 00:38:39
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -37,6 +37,7 @@
   border: 1px solid @bdColor;
   max-height: 230px;
   min-width: 187px;
+  overflow: auto;
 }
 .el-dropdown-link {
   display: flex;
@@ -72,10 +73,14 @@
           <el-col :span="12"
                   class="filter__item-text">价格</el-col>
           <el-col :span="12"
-                  class="filter__item-text">0-1200</el-col>
+                  class="filter__item-text">0-{{ price }}</el-col>
         </el-row>
         <el-row>
-          <el-slider v-model="price"></el-slider>
+          <el-slider v-model="price"
+                     :min="0"
+                     :max="4000"
+                     :step="10"
+                     @change="handlePriceChange"></el-slider>
         </el-row>
       </el-col>
       <!-- /价格模块 -->
@@ -89,20 +94,21 @@
         </el-row>
         <el-row>
           <el-dropdown class="filter__input"
-                       placement='bottom'>
+                       placement='bottom'
+                       @command="handleLevel">
             <span class="el-dropdown-link">
-              <span class="dropdown-link-text">不限</span>
+              <span class="dropdown-link-text">
+                {{ levelsOptions }}
+              </span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown"
                               class="filter__options">
-              <el-dropdown-item>
-                <i class="iconfont iconcircle"></i>
-                <span>一星</span>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <i class="iconfont iconright-1"></i>
-                <span>一星</span>
+              <el-dropdown-item v-for="item in levels"
+                                :key="item.id"
+                                :command="item.level">
+                <i :class="['iconfont', hotellevel_in.indexOf(item.level)>-1? 'iconright-1':'iconcircle']"></i>
+                <span>{{ item.name }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -119,20 +125,19 @@
         </el-row>
         <el-row class="filter__item-input">
           <el-dropdown class="filter__input"
-                       placement='bottom'>
+                       placement='bottom'
+                       @command="handleTypes">
             <span class="el-dropdown-link">
               <span class="dropdown-link-text">不限</span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown"
                               class="filter__options">
-              <el-dropdown-item>
-                <i class="iconfont iconcircle"></i>
-                <span>一星</span>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <i class="iconfont iconright-1"></i>
-                <span>一星</span>
+              <el-dropdown-item v-for="item in types"
+                                :key="item.id"
+                                :command="item.id">
+                <i :class="['iconfont', hoteltype_in.indexOf(item.id)>-1? 'iconright-1':'iconcircle']"></i>
+                <span>{{ item.name }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -149,20 +154,19 @@
         </el-row>
         <el-row class="filter__input">
           <el-dropdown class="filter__input"
-                       placement='bottom'>
+                       placement='bottom'
+                       @command="handleAssets">
             <span class="el-dropdown-link">
               <span class="dropdown-link-text">不限</span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown"
                               class="filter__options">
-              <el-dropdown-item>
-                <i class="iconfont iconcircle"></i>
-                <span>一星</span>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <i class="iconfont iconright-1"></i>
-                <span>一星</span>
+              <el-dropdown-item v-for="item in assets"
+                                :key="item.id"
+                                :command="item.id">
+                <i :class="['iconfont', hotelasset_in.indexOf(item.id)>-1? 'iconright-1':'iconcircle']"></i>
+                <span>{{ item.name }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -178,20 +182,19 @@
         </el-row>
         <el-row class="filter__item-input">
           <el-dropdown class="filter__input"
-                       placement='bottom'>
+                       placement='bottom'
+                       @command="handleBrands">
             <span class="el-dropdown-link">
               <span class="dropdown-link-text">不限</span>
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown"
                               class="filter__options">
-              <el-dropdown-item>
-                <i class="iconfont iconcircle"></i>
-                <span>一星</span>
-              </el-dropdown-item>
-              <el-dropdown-item>
-                <i class="iconfont iconright-1"></i>
-                <span>一星</span>
+              <el-dropdown-item v-for="item in brands"
+                                :key="item.id"
+                                :command="item.id">
+                <i :class="['iconfont', hotelbrand_in.indexOf(item.id)>-1? 'iconright-1':'iconcircle']"></i>
+                <span>{{ item.name }}</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -206,12 +209,96 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'HotelFilter',
   data () {
     return {
-      price: 0
+      /* --------------------------选中条件数据-------------------------------- */
+      price: 4000,
+      hotellevel_in: [],
+      hoteltype_in: [],
+      hotelasset_in: [],
+      hotelbrand_in: [],
+      /* --------------------------筛选选项数据-------------------------------- */
+      assets: [],
+      brands: [],
+      levels: [],
+      types: [],
+      /* --------------------------description-------------------------------- */
+      query: {}
     }
   },
+  computed: {
+    levelsOptions () {
+      let str = ''
+      if (Array.isArray(this.hotellevel_in)) {
+        if (this.hotellevel_in.length > 0) {
+          str = `已选择${this.hotellevel_in.length}项`
+        } else {
+          str = '不限'
+        }
+      } else {
+        str = this.hotellevel_in
+      }
+
+      return str
+    }
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      deep: true,
+      handler: function (to, from) { //调用接口发送请求
+        this.$T.extend(this, to.query)
+
+        console.log(this.hotellevel_in)
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      getOptions: 'hotel/getOptions'
+    }),
+    /* ---------------------------公用函数---------------------------------- */
+    routerPush (key, command) {
+      const { query } = this.$route
+      let temp = []
+      if (!query[key]) {
+        temp = [command]
+      } else {
+        const index = query[key].indexOf(command)
+        if (index > -1) {
+          temp = query[key].filter((item, i) => i !== index)
+        } else {
+          temp = [...new Set([...query[key], command])]
+        }
+      }
+      this.$router.push({ path: '/hotel', query: { ...query, [key]: temp } })
+    },
+    /* --------------------------事件处理函数-------------------------------- */
+    handlePriceChange (val) {
+      const { query } = this.$route
+      this.$router.push({ path: '/hotel', query: { ...query, price_lt: val } })
+    },
+    handleLevel (command) {
+      this.routerPush('hotellevel_in', command)
+    },
+    handleTypes (command) {
+      this.routerPush('hoteltype_in', command)
+    },
+    handleAssets (command) {
+      this.routerPush('hotelasset_in', command)
+    },
+    handleBrands (command) {
+      this.routerPush('hotelbrand_in', command)
+    }
+  },
+  mounted () {
+    this.price = +this.query.price_lt //设置默认值
+    this.getOptions().then(res => { //请求获取选项参数
+      this.$T.extend(this, res)
+    })
+  }
 }
 </script>
