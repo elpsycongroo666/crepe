@@ -198,10 +198,8 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => [
-        console.log(res),
         this.$message.success('发布成功')
       ]).catch(err => {
-        console.log(err)
       })
 
     },
@@ -215,9 +213,7 @@ export default {
         url: "/cities",
         params: { name: value }
       }).then(res => {
-        // console.log(res.data);
         const { data } = res.data;
-        // console.log(data);
         const newData = [];
         data.forEach(v => {
           v.value = v.name;
