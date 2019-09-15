@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="post_container">
     <el-row class="el-row"
             type="flex"
@@ -9,6 +10,15 @@
       <!-- 左边文章内容 -->
       <div class="post-wrapper">
         <div class="post_search-wrapper">
+=======
+  <div style="padding:50px;">
+    <button>
+      <nuxt-link to="/post/create">写游记</nuxt-link>
+    </button>
+    <h2>组件递归</h2>
+
+    <Item :data="list" />
+>>>>>>> 17e4f1c399a494006a1a903887d01189e8a5387d
 
           <!-- 搜索框 -->
           <el-row class="post_search-bar"
@@ -63,6 +73,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 //引入攻略组件
 import PostList from "@/components/post/PostList.vue";
 
@@ -253,4 +264,49 @@ el-pagination {
   color: #303133;
   font-weight: 700;
 }
+=======
+export default {
+  data () {
+    return {
+      list: [
+        {
+          title: "衣服",
+          children: [
+            {
+              title: "男装",
+              children: [
+                { title: "秋裤" },
+                {                  title: "西装", children: [
+                    { title: "领带" },
+                    { title: "皮带" },
+                  ]                }
+              ]
+            },
+            {
+              title: "女装",
+              children: [
+                { title: "裙子" },
+                { title: "比基尼" }
+              ]
+            }
+          ]
+        },
+
+        {
+          title: "电器",
+          children: [
+            { title: "冰箱" },
+            { title: "空调" },
+            { title: "游戏机" }
+          ]
+        }
+      ]
+    }
+  },
+
+}
+</script>
+
+<style>
+>>>>>>> 17e4f1c399a494006a1a903887d01189e8a5387d
 </style>
