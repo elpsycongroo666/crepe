@@ -1,6 +1,6 @@
 {
   "editor.detectIndentation": false,
-  "editor.renderWhitespace": "all",
+  // "editor.renderWhitespace": "all",
   "workbench.iconTheme": "material-icon-theme",
   "explorer.confirmDragAndDrop": false, //打开文件不覆盖
   "search.followSymlinks": false, //关闭rg.exe进程
