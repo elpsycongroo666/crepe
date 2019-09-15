@@ -2,15 +2,17 @@
   <div class="hotel_pic">
     <!-- 酒店图片 -->
     <el-row>
+      <!-- 大的预览图 -->
       <el-col :span="16"
               class="big_pic">
-
         <img :src="bigImg"
              alt="">
       </el-col>
       <el-col :span="8">
         <el-row class="small_list"
                 style="margin-left:-10px;">
+
+          <!-- 小的预览图 -->
           <el-col :span="12"
                   class="small_item"
                   v-for="(item,index) in hotelView"
@@ -30,13 +32,6 @@
 
 <script>
 export default {
-  // 接收父组件的数据
-  props: {
-    data: {
-      type: Object,
-      default: {}
-    }
-  },
 
   data () {
     return {

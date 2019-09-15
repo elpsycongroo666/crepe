@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 23:58:34
+ * @Last Modified time: 2019-09-16 00:19:53
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -79,7 +79,7 @@
     </div>
 
   </div>
-  <!-- S 酒店首页模块 -->
+
 </template>
 
 <script>

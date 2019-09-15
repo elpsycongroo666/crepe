@@ -1,8 +1,9 @@
 <template>
   <div class="room_type">
-    <!-- 表单制作 -->
-    <el-table :data="products1"
-              style="width: 100%">
+    <!-- 酒店合作的其他产品来源 -->
+    <el-table :data="data.products"
+              style="width: 100%"
+              @row-click="handelclick">
       <el-table-column prop="name"
                        label="价格来源"
                        width="420">
@@ -23,23 +24,31 @@
 </template>
 
 <script>
+
 export default {
-
-  data () {
-    return {
-      // 定义一个数据存储酒店产品数据
-      products1: [],
-
+  // 接收父组件的数据
+  props: {
+    data: {
+      type: Object,
+      default: {}
     }
   },
 
-  mounted () {
-    // 从vuex中获取酒店产品数据，也可以使用组件传值方法
-    setTimeout(() => {
-      this.products1 = this.$store.state.hotel.hotelDetail.products
-    }, 10)
-
-  }
+  methods: {
+    // 点击产品跳转到不同的页面
+    handelclick (row) {
+      console.log(row)
+      if (row.name === "携程") {
+        window.open('https://hotels.ctrip.com/hotel/694679.html')
+      }
+      if (row.name === "艺龙") {
+        window.open('http://hotel.elong.com/hangzhou/')
+      }
+      if (row.name === "Hotels.com") {
+        window.open('https://www.hotels.cn/ho490716/?pa=1&q-check-out=2019-09-18&tab=description&q-room-0-adults=2&YGF=3&q-check-in=2019-09-17&MGT=1&WOE=3&WOD=2&ZSX=0&SYE=3&q-room-0-children=0')
+      }
+    }
+  },
 }
 </script>
 
