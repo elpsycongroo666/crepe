@@ -1,17 +1,19 @@
 <template>
   <div class="comment">
-    <h4>0条真实用户评论</h4>
+
+    <h4>{{data.common_remarks}}条真实用户评论</h4>
     <el-row class="comment_info">
+      <!-- 评论数据信息 -->
       <el-col :span="4">
-        <p>总评数：82</p>
-        <p>好评数：14</p>
-        <p>差评数：6</p>
+        <p>总评数：{{data.all_remarks}}</p>
+        <p>好评数：{{data.good_remarks}}</p>
+        <p>差评数：{{data.bad_remarks}}</p>
       </el-col>
       <el-col :span="5"
               class="recomment_score">
-        <!-- 星星 -->
+        <!-- 星星打分 -->
         <el-rate class="starts"
-                 v-model="value"
+                 v-model="data.stars"
                  disabled
                  :allow-half="true"
                  show-score
@@ -19,6 +21,7 @@
                  :colors="['#F7BA2A', '#F7BA2A', '#F7BA2A']"
                  void-icon-class="el-icon-star-off"
                  void-color="#C6D1DE"
+                 :score-template="`${data.stars}分`"
                  @change="handelScope">
         </el-rate>
         <!-- 星星底下的推荐 -->
@@ -31,7 +34,7 @@
       <el-col :span="3">
         <div class="circle">
           <el-progress type="circle"
-                       :percentage="70"
+                       :percentage="data.scores.environment*10"
                        :width="70"
                        color="#f90"
                        :stroke-width="2"
@@ -39,7 +42,7 @@
           </el-progress>
           <span class="text">
             <span>环境</span>
-            <span>7.3</span>
+            <span>{{data.scores.environment}}</span>
           </span>
         </div>
       </el-col>
@@ -48,7 +51,7 @@
       <el-col :span="3">
         <div class="circle">
           <el-progress type="circle"
-                       :percentage="70"
+                       :percentage="data.scores.product*10"
                        :width="70"
                        :stroke-width="2"
                        color="#f90"
@@ -56,7 +59,7 @@
           </el-progress>
           <span class="text">
             <span>产品</span>
-            <span>7.5</span>
+            <span>{{data.scores.product}}</span>
           </span>
         </div>
       </el-col>
@@ -65,7 +68,7 @@
       <el-col :span="3">
         <div class="circle">
           <el-progress type="circle"
-                       :percentage="70"
+                       :percentage="data.scores.service*10"
                        :width="70"
                        :stroke-width="2"
                        color="#f90"
@@ -73,7 +76,7 @@
           </el-progress>
           <span class="text">
             <span>服务</span>
-            <span>7.3</span>
+            <span>{{data.scores.service}}</span>
           </span>
         </div>
       </el-col>
@@ -84,17 +87,29 @@
 
 <script>
 export default {
+  // 接收父组件的数据
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
   data () {
     return {
-      value: 3.5
 
+      // 环境/产品/服务
+      rate: {
+        environment: 0,
+        product: 0,
+        service: 0
+      },
     }
   },
 
   methods: {
     // 操作星星的分数
     handelScope (score) {
-      score = this.value
+      score = this.data.stars
     }
   },
 
@@ -102,8 +117,6 @@ export default {
     // 组件加载完毕时，调用方法
     this.handelScope()
   }
-
-
 
 }
 </script>

@@ -5,7 +5,11 @@
  * @Last Modified time: 2019-09-12 08:52:05
  */
 <template>
-  <div>酒店首页</div>
+  <div>
+    <h1>酒店首页</h1>
+    <nuxt-link to="/hotel/detail?id=5">酒店详情</nuxt-link>
+  </div>
+
 </template>
 
 <script>
