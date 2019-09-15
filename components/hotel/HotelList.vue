@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 16:27:55
+ * @Last Modified time: 2019-09-15 23:56:52
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -88,7 +88,9 @@
   padding-left: 20px;
   border-left: 1px solid @bdColor;
 }
-.list__price-txt {
+.list__nofoud {
+  margin: 50px;
+  text-align: center;
 }
 </style>
 <template>
@@ -169,6 +171,9 @@
       <!-- /酒店介绍模块 -->
 
     </div>
+
+    <div class="list__nofoud"
+         v-if="hotelData.data">暂无符合条件的酒店</div>
   </div>
   <!-- S 酒店首页模块 -->
 </template>

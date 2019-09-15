@@ -45,7 +45,6 @@ export const actions = {
       url: '/hotels/options',
       method: 'GET'
     })
-    // commit('SET_HOTELDATA', res.data)
     const { data } = res.data
     return data
   },

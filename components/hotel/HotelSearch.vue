@@ -96,8 +96,11 @@ export default {
     },
     /* --------------------------事件处理-------------------------------- */
     handleSelect (item) { //选择城市触发
+      const { query } = this.$route
       this.SET_SCENICSDATA(item.scenics)
       this.SET_CURRENTCITY(item)
+      console.log(item, query)
+      this.$router.push({ path: '/hotel', query: { city: item.id } })
     },
     querySearchAsync (queryString, cb) { // 显示搜索建议
       this.getCites(queryString).then(data => {

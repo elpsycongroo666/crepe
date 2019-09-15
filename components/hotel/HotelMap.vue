@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 16:11:20
+ * @Last Modified time: 2019-09-16 00:07:26
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -86,6 +86,11 @@ export default {
     'hotelData': {
       deep: true,
       handler: function (val, old) {
+        if (val.data.length < 1) {
+          this.markers = [{ position: [0, 0], events: null }]
+          this.windows.length = 0
+          return
+        }
         this.markers.length = 0
         const self = this
         val.data.map((item, index) => {
@@ -97,7 +102,6 @@ export default {
               self.windows.forEach(window => {
                 window.visible = false;
               });
-
               self.window = self.windows[index];
               self.$nextTick(() => {
                 self.window.visible = true;
@@ -109,16 +113,16 @@ export default {
               });
             }
           }
+          //位置信息
+          this.markers.push(temp)
           //窗体信息
           this.windows.push({
             position: [item.location.longitude, item.location.latitude],
             name: item.name,
             visible: false
           });
-          //位置信息
-          this.markers.push(temp)
           //设置中心点
-          if (this.markers.length > 0) {
+          if (this.markers) {
             this.center = [...this.markers[0].position]
           }
         })

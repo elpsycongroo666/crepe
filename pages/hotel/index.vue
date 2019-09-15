@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 16:36:41
+ * @Last Modified time: 2019-09-15 23:58:34
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -100,7 +100,7 @@ export default {
   },
   data () {
     return {
-      loading: true
+      loading: true //loading状态
     }
   },
   components: {
@@ -126,14 +126,14 @@ export default {
     '$route': {
       immediate: true,
       deep: true,
-      handler: function (to, from) { //调用接口发送请求
+      handler: async function (to, from) { //调用接口发送请求
         this.loading = true
         const { query } = to
         const data = this.$T.parseParam(query)
-        this.getHotels(data).then(res => {
+        await this.getHotels(data).then(res => { //请求酒店数据
           this.loading = false
         })
-        this.getCites().then(data => {
+        await this.getCites().then(data => { //请求城市数据
           this.SET_SCENICSDATA(data[0].scenics)
           this.SET_CURRENTCITY(data[0])
         })
