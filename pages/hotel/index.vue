@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 11:11:04
+ * @Last Modified time: 2019-09-15 16:36:41
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -53,7 +53,8 @@
         <div class="hotel__nav">
           <hotel-nav />
         </div>
-        <div class="hotel__map">
+        <div class="hotel__map"
+             v-loading="loading">
           <hotel-map />
         </div>
       </div>
@@ -64,7 +65,8 @@
       </div>
       <!-- /酒店筛选模块 -->
 
-      <div class="hotel__list">
+      <div class="hotel__list"
+           v-loading="loading">
         <hotel-list />
       </div>
       <!-- /酒店列表模块 -->
@@ -96,6 +98,11 @@ export default {
       redirect({ path: '/hotel', query: { city: store.state.hotel.currentCity.id } })
     }
   },
+  data () {
+    return {
+      loading: true
+    }
+  },
   components: {
     HotelBar,
     HotelSearch,
@@ -112,7 +119,7 @@ export default {
     }),
     ...mapMutations({
       SET_SCENICSDATA: 'hotel/SET_SCENICSDATA',//设置城市风景数据
-      SET_CURRENTCITY: 'hotel/SET_CURRENTCITY'//设置当前城市数据
+      SET_CURRENTCITY: 'hotel/SET_CURRENTCITY',//设置当前城市数据
     }),
   },
   watch: {
@@ -120,12 +127,15 @@ export default {
       immediate: true,
       deep: true,
       handler: function (to, from) { //调用接口发送请求
+        this.loading = true
         const { query } = to
         const data = this.$T.parseParam(query)
-        this.getHotels(data)
+        this.getHotels(data).then(res => {
+          this.loading = false
+        })
         this.getCites().then(data => {
-          this.SET_SCENICSDATA(data.scenics)
-          this.SET_CURRENTCITY(data)
+          this.SET_SCENICSDATA(data[0].scenics)
+          this.SET_CURRENTCITY(data[0])
         })
       }
     }

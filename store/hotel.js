@@ -1,7 +1,7 @@
 // 准备酒店详情仓库
 export const state = () => ({
   hotelDetail: {},
-  hotelData: [], //酒店数据
+  hotelData: { total: 0 }, //酒店数据
   scenicsData: [], //风景数据
   hotelOptions: {}, //酒店筛选数据
   currentCity: { id: 74, name: '南京', scenicsData: [] } // 当前城市
@@ -50,15 +50,16 @@ export const actions = {
     return data
   },
   //获取城市风景
-  async getCites({ commit, state }) {
+  async getCites({ commit, state }, name) {
+    let city = name ? name : state.currentCity.name
     let res = await this.$axios({
       url: '/cities',
       method: 'GET',
       params: {
-        name: state.currentCity.name
+        name: city
       }
     })
     const { data } = res.data
-    return data[0]
+    return data
   }
 }

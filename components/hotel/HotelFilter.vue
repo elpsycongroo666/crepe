@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 00:38:39
+ * @Last Modified time: 2019-09-15 00:40:53
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -251,8 +251,6 @@ export default {
       deep: true,
       handler: function (to, from) { //调用接口发送请求
         this.$T.extend(this, to.query)
-
-        console.log(this.hotellevel_in)
       }
     }
   },
