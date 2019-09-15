@@ -31,7 +31,7 @@
         <span>或者</span>
         <a href="#"
            class="save"
-           @click="handleSavve">保存到草稿</a>
+           @click="handleSave">保存到草稿</a>
       </div>
     </el-col>
     <div class="aside">
@@ -56,9 +56,6 @@
       </el-col>
     </div>
   </el-row>
-  <!-- <div class="app">
-    <VueEditor class="size" ref="vueEditor" :config="config"/>
-  </div>-->
 </template>
 
 <script>
@@ -70,7 +67,7 @@ if (process.browser) {
   VueEditor = require("vue-word-editor").default;
 }
 export default {
-  // name: "app",
+  name: "editor",
   components: {
     VueEditor
   },
@@ -135,13 +132,11 @@ export default {
   mounted () {
     // this.posts=localStorage.getItem('posts')
     this.posts = JSON.parse(localStorage.getItem("posts")) || []
-    // console.log(this.posts)
-
   },
 
   methods: {
     //点击保存至草稿箱
-    handleSavve () {
+    handleSave () {
       this.article.content = this.$refs.vueEditor.editor.root.innerHTML;
       this.article.time = moment(new Date()).format('YYYY-MM-DD')
       const posts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -156,11 +151,6 @@ export default {
 
     //点击标题编辑
     handleEditor (index) {
-      // console.log(123)
-      // const arr=JSON.parse(localStorage.getItem('posts'))
-      // console.log(this.article)
-      // console.log(index)
-      // console.log(this.posts[index])
       this.article.shareTitle = this.posts[index].shareTitle
       this.$refs.vueEditor.editor.root.innerHTML = this.posts[index].content
       this.article.departCity = this.posts[index].departCity
@@ -168,43 +158,39 @@ export default {
 
     //点击删除
     handleDelete (index) {
-      // console.log(index)
-      // console.log(123)
       let arr = JSON.parse(localStorage.getItem('posts'))
-      // console.log(arr)
-      arr.forEach((e, i) => {
-        // console.log(e)
-        if (index === i) {
-          arr.splice(index, 1),
-            //删除的提示
-            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              //删除数据
-              this.$message({
-                type: 'success',
-                message: '删除成功!',
-              });
+      //删除的提示
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        //删除数据
+        arr.splice(index, 1)
+        localStorage.setItem('posts', JSON.stringify(arr))
+        this.$message({
+          type: 'success',
+          message: '删除成功!',
+        });
+        window.location.reload()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
 
-              window.location.reload()
-            });
-        }
-      })
-      localStorage.setItem('posts', JSON.stringify(arr))
     },
 
     //发布文章
     handlePublic () {
       // this.article.time = moment(new Date()).format('YYYY-MM-DD')
-      // console.log(this.article);
-      console.log(this.posts[index])
+      console.log(this.article);
       this.$axios({
         url: '/posts',
         method: 'post',
         data: {
-          content: this.article.content,
+          content: this.$refs.vueEditor.editor.root.innerHTML,
           title: this.article.title,
           city: this.article.departCity
         },
@@ -212,10 +198,12 @@ export default {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => [
-        // console.log(res),
-        this.$message.success('发布成功'),
-        window.location.reload()
-      ])
+        console.log(res),
+        this.$message.success('发布成功')
+      ]).catch(err => {
+        console.log(err)
+      })
+
     },
 
     //选择城市
