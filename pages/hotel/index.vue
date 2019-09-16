@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 09:21:36
+ * @Last Modified time: 2019-09-16 10:08:34
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -26,7 +26,7 @@
   width: 580px;
 }
 .hotel__map {
-  width: 360px;
+  width: 410px;
 }
 .hotel__pagination {
   display: flex;
@@ -53,7 +53,8 @@
         <div class="hotel__nav">
           <hotel-nav />
         </div>
-        <div class="hotel__map">
+        <div class="hotel__map"
+             v-loading="loading">
           <hotel-map />
         </div>
       </div>
@@ -64,7 +65,8 @@
       </div>
       <!-- /酒店筛选模块 -->
 
-      <div class="hotel__list">
+      <div class="hotel__list"
+           v-loading="loading">
         <hotel-list />
       </div>
       <!-- /酒店列表模块 -->
@@ -77,10 +79,11 @@
     </div>
 
   </div>
-  <!-- S 酒店首页模块 -->
+
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
 import HotelBar from 'components/hotel/HotelBar'
 import HotelSearch from 'components/hotel/HotelSearch'
 import HotelNav from 'components/hotel/HotelNav'
@@ -88,13 +91,16 @@ import HotelMap from 'components/hotel/HotelMap'
 import HotelFilter from 'components/hotel/HotelFilter'
 import HotelList from 'components/hotel/HotelList'
 import HotelPagination from 'components/hotel/HotelPagination'
-
-
 export default {
   name: 'hotel',
   async asyncData ({ store, query, redirect }) {
     if (Object.keys(query).length < 1) {
       redirect({ path: '/hotel', query: { city: store.state.hotel.currentCity.id } })
+    }
+  },
+  data () {
+    return {
+      loading: true,//loading状态
     }
   },
   components: {
@@ -107,21 +113,32 @@ export default {
     HotelPagination
   },
   methods: {
-
+    ...mapActions({
+      getHotels: 'hotel/getHotels',//请求酒店数据
+      getCites: 'hotel/getCites'//获取城市数据
+    }),
+    ...mapMutations({
+      SET_SCENICSDATA: 'hotel/SET_SCENICSDATA',//设置城市风景数据
+      SET_CURRENTCITY: 'hotel/SET_CURRENTCITY',//设置当前城市数据
+    }),
   },
   watch: {
     '$route': {
       immediate: true,
       deep: true,
-      handler: function (to, from) { //调用接口发送请求
+      handler: async function (to, from) { //调用接口发送请求
+        this.loading = true
         const { query } = to
         const data = this.$T.parseParam(query)
-        this.$store.dispatch('hotel/getHotels', data)
+        await this.getHotels(data).then(res => { //请求酒店数据
+          this.loading = false
+        })
+        await this.getCites().then(data => { //请求城市数据
+          this.SET_SCENICSDATA(data[0].scenics)
+          this.SET_CURRENTCITY(data[0])
+        })
       }
     }
-  },
-  mounted () {
-    // this.getHotelData()
   }
 }
 </script>

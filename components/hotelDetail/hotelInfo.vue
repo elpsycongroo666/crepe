@@ -1,15 +1,15 @@
 <template>
   <div class="hotel_info">
 
-    <!-- 基本信息 -->
+    <!-- 房间基本信息 -->
     <el-row class="assets_item">
       <el-col :span="4">基本信息</el-col>
       <el-col :span="20">
         <el-row class="base_info">
           <el-col :span="6">入住时间: 14:00之后</el-col>
           <el-col :span="6">离店时间: 12:00之前</el-col>
-          <el-col :span="6">2014年开业 / 2014年装修</el-col>
-          <el-col :span="6">酒店规模: 119间客房</el-col>
+          <el-col :span="6"> {{data.creation_time}}/ {{data.renovat_time}}</el-col>
+          <el-col :span="6">酒店规模: {{data.roomCount}}间客房</el-col>
 
         </el-row>
       </el-col>
@@ -20,12 +20,13 @@
     <el-row class="assets_item">
       <el-col :span="4">主要设施</el-col>
       <el-col :span="20">
-        <span class="assets_info">吹风机</span>
-        <span class="assets_info">外币兑换服务</span>
-        <span class="assets_info">wifi</span>
-        <span class="assets_info">电梯</span>
-        <span class="assets_info">热水壶</span>
-
+        <span class="assets_info"
+              v-for="(item,index) in data.hotelassets"
+              :key="index">{{item.name}}</span>
+      </el-col>
+      <el-col :span="20"
+              v-show="data.hotelassets.length === 0">
+        <span>-</span>
       </el-col>
     </el-row>
 
@@ -33,9 +34,7 @@
     <el-row class="assets_item">
       <el-col :span="4">停车服务</el-col>
       <el-col :span="20">
-        <el-row class="base_info">
-          -
-        </el-row>
+        -
       </el-col>
     </el-row>
 
@@ -54,7 +53,13 @@
 
 <script>
 export default {
-
+  // 接收父组件的数据
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
 }
 </script>
 

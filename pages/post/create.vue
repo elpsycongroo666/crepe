@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <VueEditor />
+    <VueEditor :data="$store.state.posts.postInfo" />
   </div>
 </template>
 

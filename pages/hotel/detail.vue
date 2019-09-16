@@ -7,12 +7,13 @@
 
 
 <template>
-  <div class="hotel">
+  <div class="hotel"
+       v-loading="loading">
     <div class="main">
       <!-- 面包屑导航 -->
       <div class="header_nav">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="{}">酒店</el-breadcrumb-item>
+          <el-breadcrumb-item to="/hotel">酒店</el-breadcrumb-item>
           <el-breadcrumb-item v-for="(val,index) in hotelDetail.breadcrumb"
                               :key="index">{{val}}</el-breadcrumb-item>
         </el-breadcrumb>
@@ -22,12 +23,11 @@
       <div class="name_info">
         <h2>
           {{hotelDetail.name}}
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-          <i class="iconfont iconhuangguan"></i>
-
+          <span :title="hotelDetail.hotellevel.name">
+            <i class="iconfont iconhuangguan"
+               v-for="(item,index) in hotelDetail.hotellevel.level"
+               :key="index"></i>
+          </span>
         </h2>
         <p>{{hotelDetail.alias}}</p>
         <i class="iconfont iconlocation"></i>
@@ -38,16 +38,16 @@
       <HotelView :data="hotelDetail" />
 
       <!-- 房价来源/房间类型/费用 -->
-      <RoomType />
+      <RoomType :data="hotelDetail" />
 
       <!-- 地图交通 -->
-      <HotelMap />
+      <HotelMap :data="hotelDetail" />
 
       <!-- 酒店信息/主要设施/停车服务/品牌信息 -->
-      <HotelInfo />
+      <HotelInfo :data="hotelDetail" />
 
       <!-- 用户评论 -->
-      <HotelComment />
+      <HotelComment :data="hotelDetail" />
     </div>
   </div>
 </template>
@@ -66,7 +66,14 @@ export default {
   data () {
     return {
       // 酒店详情信息
-      hotelDetail: {}
+      hotelDetail: {
+        hotellevel: {},
+        products: [],
+        hotelassets: [],
+        stars: 0,
+        scores: {}
+      },
+      loading: true //添加loading
     }
   },
 
@@ -80,26 +87,19 @@ export default {
   },
 
   mounted () {
-    // this.$axios({
-    //   url: "/cities",
-    //   params: {
-    //     name: "南京"
-    //   }
-    // }).then(res => {
-    //   console.log(res);
-    // });
+    // 获取酒店详情数据
     this.$axios({
-      url: "/hotels?city=74&enterTime=2019-09-17&leftTime=2019-09-20&_limit=1&_start=0",
+      url: "/hotels",
+      params: { id: this.$route.query.id }
 
     }).then(res => {
-      // console.log(res)
       this.hotelDetail = res.data.data[0]
       this.hotelDetail.breadcrumb = this.hotelDetail.breadcrumb.split('>')
-      console.log(this.hotelDetail)
-
       // // 把数据储存到vuex中
-      this.$store.commit('hotel/setHotelDetail', this.hotelDetail)
+      this.$store.commit('hotel/SETHOTEL_DETAIL', this.hotelDetail)
+      this.loading = false
     })
+
   }
 };
 </script>
@@ -122,6 +122,9 @@ export default {
         font-weight: normal;
         font-size: 24px;
         color: #333;
+        > span {
+          display: inline-block;
+        }
         .iconhuangguan {
           color: @mainColor;
         }

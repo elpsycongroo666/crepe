@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-14 00:09:41
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 07:52:57
+ * @Last Modified time: 2019-09-14 22:14:05
  */
 import Vue from 'vue'
 let tool = {
@@ -20,6 +20,13 @@ let tool = {
     let _result = []
     Object.keys(_json).map(item => {
       if (!_json[item]) return
+      if (Array.isArray(_json[item])) {
+        const arr = _json[item]
+        arr.map(v => {
+          _result.push(`${item}=${v}`)
+        })
+        return
+      }
       _result.push(`${item}=${_json[item]}`)
     })
     return _result.join('&')
@@ -44,6 +51,13 @@ let tool = {
         lastTime = nowTime
       }
     }
+  },
+  //拷贝继承
+  extend(_preJson, _addJson) {
+    for (var key in _addJson) {
+      _preJson[key] = _addJson[key]
+    }
+    return _preJson
   }
 }
 
