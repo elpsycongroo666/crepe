@@ -34,7 +34,9 @@
           <h4>推荐攻略</h4>
           <el-button type="primary"
                      icon="el-icon-edit"
-                     class="post_el-button">写游记</el-button>
+                     class="post_el-button">
+            <nuxt-link to="post/create">写游记</nuxt-link>
+          </el-button>
         </el-row>
 
         <!-- 文章列表 -->
