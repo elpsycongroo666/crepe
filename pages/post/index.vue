@@ -74,6 +74,8 @@ export default {
       PostDataList: [],
       //缓存文章列表数据
       cachePostDataList: {},
+
+      id: ''
     };
   },
 
@@ -165,7 +167,8 @@ export default {
     getDataAx () {
       let obj = {
         _start: this.start,
-        _limit: this.limit
+        _limit: this.limit,
+        // id: this.id
       }
       if (this.city) {
         obj.city = this.city
@@ -175,11 +178,12 @@ export default {
         url: "posts",         //+ "?_start=" + this._start + "&limit=" + this._limit,
         params: obj
       }).then(res => {
-        console.log(res.data.data.cityName)
+        console.log(res.data)
         this.PostData = res.data
         this.PostDataList = this.PostData.data
         this.total = res.data.total
         this.city = res.data.data.cityName
+        this.id = res.data.data.id
       })
     }
 
