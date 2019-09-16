@@ -1,15 +1,10 @@
 // 准备酒店详情仓库
 export const state = () => ({
-<<<<<<< HEAD
-  // 酒店详情数据
-  hotelDetail: {},
-=======
   hotelDetail: {},
   hotelData: { total: 0 }, //酒店数据
   scenicsData: [], //风景数据
   hotelOptions: {}, //酒店筛选数据
   currentCity: { id: 74, name: '南京', scenicsData: [] } // 当前城市
->>>>>>> 40d9cf3960b047a488daca247bac16e51fce8917
 })
 
 export const mutations = {
@@ -17,8 +12,6 @@ export const mutations = {
   SETHOTEL_DETAIL(state, data) {
     state.hotelDetail = data
   },
-<<<<<<< HEAD
-=======
   // 存储酒店列表数据
   SET_HOTELDATA(state, data) {
     state.hotelData = data
@@ -68,5 +61,4 @@ export const actions = {
     const { data } = res.data
     return data
   }
->>>>>>> 40d9cf3960b047a488daca247bac16e51fce8917
 }
