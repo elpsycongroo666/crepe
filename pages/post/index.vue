@@ -169,6 +169,9 @@ export default {
         _limit: this.limit,
         // id: this.id
       }
+      if (this.$route.query.city) {
+        obj.city = this.$route.query.city
+      }
       if (this.city) {
         obj.city = this.city
       }

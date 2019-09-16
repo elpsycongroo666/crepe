@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-16 10:06:38
+ * @Last Modified time: 2019-09-16 16:20:13
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -24,6 +24,7 @@
   display: flex;
   padding: 25px 0;
   border-bottom: 1px solid @bdColor;
+  cursor: pointer;
 }
 .list__sider {
   margin-right: 20px;
