@@ -102,7 +102,7 @@ export default {
           temp.position = [item.location.longitude, item.location.latitude]
           //事件
           temp.events = {
-            mouseover () {
+            mouseover () {// 鼠标移入
               clearTimeout(self.timer)
               self.timer = setTimeout(() => {
                 self.windows.forEach(window => {
@@ -114,7 +114,7 @@ export default {
                 });
               }, 300)
             },
-            mouseout () {
+            mouseout () { // 鼠标移出
               clearTimeout(self.timer)
               self.$nextTick(() => {
                 self.window.visible = false;

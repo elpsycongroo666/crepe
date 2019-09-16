@@ -78,58 +78,58 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) { }
+    extend(config, ctx) {}
   },
+  //打包
+  // router: {
+  //   base: '/crepe/'
+  // },
   name: 'title',
-  data () {
+  data() {
     return {
       config: {
         modules: {
           // 工具栏
           toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
             ['blockquote', 'code-block'],
             ['image', 'video'],
 
-            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-            [{ 'direction': 'rtl' }],                         // text direction
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }] // text direction
           ]
         },
         // 主题
         theme: 'snow',
         uploadImage: {
-          url: "http://localhost:1337/upload",
-          name: "files",
-          uploadBefore (file) {
+          url: 'http://localhost:1337/upload',
+          name: 'files',
+          uploadBefore(file) {
             return true
           },
-          uploadProgress (res) {
-
+          uploadProgress(res) {},
+          uploadSuccess(res, insert) {
+            insert('http://localhost:1337' + res.data[0].url)
           },
-          uploadSuccess (res, insert) {
-            insert("http://localhost:1337" + res.data[0].url)
-          },
-          uploadError () { },
+          uploadError() {},
           showProgress: false
         },
 
         uploadVideo: {
           //url: "http://157.122.54.189:9095/upload",
-          url: "http://localhost:1337/upload",
-          name: "files",
-          uploadBefore (file) {
+          url: 'http://localhost:1337/upload',
+          name: 'files',
+          uploadBefore(file) {
             return true
           },
-          uploadProgress (res) {
-
+          uploadProgress(res) {},
+          uploadSuccess(res, insert) {
+            insert('http://localhost:1337' + res.data[0].url)
           },
-          uploadSuccess (res, insert) {
-            insert("http://localhost:1337" + res.data[0].url)
-          },
-          uploadError () { },
+          uploadError() {}
         }
       }
     }
