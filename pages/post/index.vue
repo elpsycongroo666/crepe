@@ -12,8 +12,7 @@
       <div class="post-wrapper">
 
         <!-- 搜索框和推荐城市 -->
-        <PostSearch :data="cachePostDataList"
-                    @setPostDataList="setPostDataList" />
+        <PostSearch @setPostDataList="setPostDataList" />
 
         <!-- 文章标题 -->
         <PostTitle />
@@ -73,7 +72,7 @@ export default {
       // post_search: '',
       PostDataList: [],
       //缓存文章列表数据
-      cachePostDataList: {},
+      // cachePostDataList: {},
 
       id: ''
     };
