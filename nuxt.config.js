@@ -32,11 +32,7 @@ export default {
    ** Global CSS
    */
   //quill/dist/quill.snow.css 富文本框样式
-  css: [
-    'element-ui/lib/theme-chalk/index.css',
-    'assets/styles/main.less',
-    'quill/dist/quill.snow.css'
-  ],
+  css: ['element-ui/lib/theme-chalk/index.css', 'assets/styles/main.less'],
   /*
    ** Plugins to load before mounting the App
    */
@@ -82,6 +78,60 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend (config, ctx) { }
+  },
+  name: 'title',
+  data () {
+    return {
+      config: {
+        modules: {
+          // 工具栏
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            ['image', 'video'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+          ]
+        },
+        // 主题
+        theme: 'snow',
+        uploadImage: {
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore (file) {
+            return true
+          },
+          uploadProgress (res) {
+
+          },
+          uploadSuccess (res, insert) {
+            insert("http://localhost:1337" + res.data[0].url)
+          },
+          uploadError () { },
+          showProgress: false
+        },
+
+        uploadVideo: {
+          //url: "http://157.122.54.189:9095/upload",
+          url: "http://localhost:1337/upload",
+          name: "files",
+          uploadBefore (file) {
+            return true
+          },
+          uploadProgress (res) {
+
+          },
+          uploadSuccess (res, insert) {
+            insert("http://localhost:1337" + res.data[0].url)
+          },
+          uploadError () { },
+        }
+      }
+    }
   }
 }

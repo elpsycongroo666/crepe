@@ -1,15 +1,15 @@
 // 准备酒店详情仓库
 export const state = () => ({
   hotelDetail: {},
-  hotelData: [], //酒店数据
-  hotelOptions: {}, //酒店筛选数据
+  hotelData: { total: 0 }, //酒店数据
   scenicsData: [], //风景数据
+  hotelOptions: {}, //酒店筛选数据
   currentCity: { id: 74, name: '南京', scenicsData: [] } // 当前城市
 })
 
 export const mutations = {
-  // 存储酒店详情数据
-  setHotelDetail(state, data) {
+  // 设置酒店详情数据
+  SETHOTEL_DETAIL(state, data) {
     state.hotelDetail = data
   },
   // 存储酒店列表数据
@@ -45,15 +45,17 @@ export const actions = {
       url: '/hotels/options',
       method: 'GET'
     })
-    return res
+    const { data } = res.data
+    return data
   },
   //获取城市风景
-  async getCites({ commit }, name) {
+  async getCites({ commit, state }, name) {
+    let city = name ? name : state.currentCity.name
     let res = await this.$axios({
       url: '/cities',
       method: 'GET',
       params: {
-        name
+        name: city
       }
     })
     const { data } = res.data

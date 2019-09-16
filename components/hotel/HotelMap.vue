@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-13 14:23:59
+ * @Last Modified time: 2019-09-16 00:07:26
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -21,9 +21,22 @@
         <el-amap-marker v-for="(marker,index) in markers"
                         :key='index'
                         :position="marker.position"
-                        :visible="marker.visible"
-                        :draggable="marker.draggable"
-                        :vid="index"></el-amap-marker>
+                        :vid="index"
+                        :events="marker.events"
+                        :topWhenClick="true"
+                        animation="AMAP_ANIMATION_DROP">
+          <div :style="iconStyle">
+            {{ index + 1 }}
+          </div>
+        </el-amap-marker>
+        <el-amap-info-window v-if="window"
+                             :position="window.position"
+                             :visible="window.visible"
+                             :content="window.content">
+          <div :style="windowStyle">
+            <span>{{ window.name }}</span>
+          </div>
+        </el-amap-info-window>
       </el-amap>
     </div>
     <!-- E 地图模块 -->
@@ -31,20 +44,34 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'HotelMap',
+  computed: {
+    ...mapState({
+      hotelData: state => state.hotel.hotelData
+    })
+  },
   data () {
     return {
-      zoom: 22,
+      iconStyle: {
+        width: '22px',
+        height: '36px',
+        textAlign: 'center',
+        lineHeight: '28px',
+        color: '#fff',
+        backgroundImage: 'url(https://webapi.amap.com/theme/v1.3/markers/b/mark_b.png)',
+        backgroundSize: '22px 36px'
+      },
+      windowStyle: {
+        padding: '2px 3px',
+        color: '#666',
+        fontSize: '12px'
+      },
+      windows: [],
+      window: '',
       center: [118.92251, 31.75561],
-      markers: [
-        {
-          position: [118.92251, 31.75561],
-          visible: true,
-          draggable: false,
-          template: '<span>1</span>'
-        }
-      ],
+      markers: [],
       plugin: [{
         pName: 'Scale',
         events: {
@@ -55,8 +82,52 @@ export default {
       }]
     }
   },
-  components: {
-
+  watch: {
+    'hotelData': {
+      deep: true,
+      handler: function (val, old) {
+        if (val.data.length < 1) {
+          this.markers = [{ position: [0, 0], events: null }]
+          this.windows.length = 0
+          return
+        }
+        this.markers.length = 0
+        const self = this
+        val.data.map((item, index) => {
+          let temp = {}
+          temp.position = [item.location.longitude, item.location.latitude]
+          //事件
+          temp.events = {
+            mouseover () {
+              self.windows.forEach(window => {
+                window.visible = false;
+              });
+              self.window = self.windows[index];
+              self.$nextTick(() => {
+                self.window.visible = true;
+              });
+            },
+            mouseout () {
+              self.windows.forEach(window => {
+                window.visible = false;
+              });
+            }
+          }
+          //位置信息
+          this.markers.push(temp)
+          //窗体信息
+          this.windows.push({
+            position: [item.location.longitude, item.location.latitude],
+            name: item.name,
+            visible: false
+          });
+          //设置中心点
+          if (this.markers) {
+            this.center = [...this.markers[0].position]
+          }
+        })
+      }
+    }
   }
 }
 </script>
