@@ -1,3 +1,4 @@
+  <!-- 攻略详情侧边栏组件 -->
 <template>
   <div class="aside">
     <h4>相关攻略</h4>
@@ -12,10 +13,9 @@
           </div>
           <div class="post-text">
             <div>{{item.title}}</div>
-            <p>{{item.updated_at}} 阅读 {{item.watch}}</p>
+            <p>{{item.updated_at |timeForm}} 阅读 {{item.watch}}</p>
           </div>
         </div>
-
       </nuxt-link>
     </div>
   </div>
@@ -40,10 +40,13 @@ export default {
         console.log(res)
         if (res.status === 200) {
           this.recommendList = res.data.data
-          this.recommendList.updated_at = moment(this.recommendList.updated_at).format('YYYY-MM-DD hh:mm') //将毫秒转换成年月日
-          console.log(this.recommendList.updated_at)
         }
       })
+  },
+  filters: {
+    timeForm (value) {
+      return moment(value).format('YYYY-MM-DD hh:mm')
+    }
   }
 }
 </script>
