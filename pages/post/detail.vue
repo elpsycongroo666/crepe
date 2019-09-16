@@ -2,6 +2,7 @@
   <div class="container el-row is-justify-space-between el-row--flex">
     <!-- 主体部分 -->
     <div class="main">
+
       <!-- 面包屑导航 -->
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/post' }">旅游攻略</el-breadcrumb-item>
@@ -26,7 +27,7 @@
         <div class="el-row is-justify-center el-row--flex">
           <div class="ctrl-item">
             <i class="iconfont iconpinglun"></i>
-            <p>评论(100)</p>
+            <p>评论({{$store.state.post.commendSize.total}})</p>
           </div>
           <div class="ctrl-item"
                @click="handleCollect">
@@ -40,7 +41,7 @@
           <div class="ctrl-item"
                @click="handlePraise">
             <i class="iconfont iconding"></i>
-            <p>点赞({{detailData.like}})</p>
+            <p>点赞({{likes}})</p>
           </div>
         </div>
       </div>
@@ -64,6 +65,7 @@ export default {
   data () {
     return {
       detailData: {},//当前页面的数据
+      likes: "0" //默认值当前文章的点赞次数
     }
   },
   methods: {
@@ -76,10 +78,10 @@ export default {
       })
         .then(res => {
           if (res.status === 200) {
+            this.getData()//刷新页面数据
             this.$message(res.data.message)
           }
         })
-      // console.log(123)
     },
     handleCollect () { //文章收藏
       const { id } = this.$route.query
@@ -89,21 +91,18 @@ export default {
         params: { id }
       })
         .then(res => {
-          // console.log(res)
           if (res.status === 200) {
             this.$message(res.data.message)
           }
         })
     },
-    getData () {
-      // 获取文章数据
+    getData () { // 获取文章数据
       const { id } = this.$route.query
       this.$axios({
         url: '/posts',
         params: { id }
       })
         .then(res => {
-          console.log(res)
           if (res.status === 200) {
             this.detailData = res.data.data[0]
             this.detailData.updated_at = moment(this.detailData.updated_at).format('YYYY-MM-DD hh:mm')
@@ -122,7 +121,7 @@ export default {
   watch: {
     // watch可以监听this下的所有属性
     $route () {
-      // 参数变化就改变数据
+      // 刷新文章数据
       this.getData()
     }
   }
