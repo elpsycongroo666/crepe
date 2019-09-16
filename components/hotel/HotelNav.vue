@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-14 11:13:11
+ * @Last Modified time: 2019-09-16 09:47:06
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -168,7 +168,7 @@ export default {
         { id: 2, level: 4, price: 521 },
         { id: 3, level: 5, price: 768 },
       ],
-      styleObj: {
+      styleObj: { //页面style对象
         list: {
           height: '24px'
         }
@@ -183,12 +183,10 @@ export default {
     })
   },
   methods: {
-    handleToggle () {
+    handleToggle () { //展开收起
       this.toggle = !this.toggle
       this.styleObj.list.height = this.toggle ? '24px' : 'auto'
     }
-  },
-  mounted () {
   }
 }
 </script>

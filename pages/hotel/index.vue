@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-16 00:19:53
+ * @Last Modified time: 2019-09-16 10:08:34
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -26,7 +26,7 @@
   width: 580px;
 }
 .hotel__map {
-  width: 360px;
+  width: 410px;
 }
 .hotel__pagination {
   display: flex;
@@ -100,7 +100,7 @@ export default {
   },
   data () {
     return {
-      loading: true //loading状态
+      loading: true,//loading状态
     }
   },
   components: {
