@@ -1,16 +1,15 @@
 <template>
   <div>
     <div class="post-item"
-         v-if=" data.images.length === 3">
+         v-if="data.images.length > 1">
       <div class="post-content">
         <h4 class="post-title">
-          <nuxt-link to="/post/detail">
+          <nuxt-link :to='"/post/detail?id="+data.id'>
             {{data.title}}
           </nuxt-link>
         </h4>
-
         <p class="post-desc">
-          <nuxt-link to="/post/detail">
+          <nuxt-link :to='"/post/detail?id="+data.id'>
             {{data.summary}}
           </nuxt-link>
         </p>
@@ -18,7 +17,7 @@
       <el-row class="post_card-images post-cover"
               type="flex"
               justify="space-between">
-        <nuxt-link to="/post/detail"
+        <nuxt-link :to='"/post/detail?id="+data.id'
                    v-for="(item,index) in data.images"
                    :key="index">
           <img :src="item"
@@ -135,6 +134,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+img {
+  width: 100%;
+  display: block;
+}
+
 .post-item {
   width: 100%;
   padding: 20px 0;
@@ -173,10 +177,13 @@ export default {
 .post_card-images {
   margin: 15px 0;
   box-sizing: border-box;
-  align-items: center;
-
+  // align-items: center;
+  overflow: hidden;
+  > a {
+    float: left;
+  }
   img {
-    width: 220px;
+    width: 100%;
     height: 150px;
   }
 }
