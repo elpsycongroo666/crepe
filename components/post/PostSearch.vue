@@ -37,6 +37,11 @@ export default {
       this.$emit("setPostDataList", CityData)
     },
 
+
+    // handleCleanCity () {
+    //   this.post_search = ''
+    // },
+
     GZ () {
       this.post_search = '广州'
       this.handleFilterCity()

@@ -181,8 +181,8 @@ export default {
         this.PostData = res.data
         this.PostDataList = this.PostData.data
         this.total = res.data.total
-        this.city = res.data.data.cityName
-        this.id = res.data.data.id
+        // this.city = res.data.data.cityName
+        // this.id = res.data.data.id
       })
     }
 
