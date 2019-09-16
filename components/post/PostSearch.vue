@@ -93,6 +93,7 @@ export default {
       color: orange;
       font-weight: 700;
       margin-right: 10px;
+      cursor: pointer;
     }
   }
 
