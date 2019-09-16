@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-16 10:13:32
+ * @Last Modified time: 2019-09-16 14:31:16
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -96,6 +96,7 @@ export default {
           return
         }
         this.markers.length = 0
+        this.windows.length = 0
         const self = this
         val.data.map((item, index) => {
           let temp = {}
@@ -116,8 +117,8 @@ export default {
             },
             mouseout () { // 鼠标移出
               clearTimeout(self.timer)
-              self.$nextTick(() => {
-                self.window.visible = false;
+              self.windows.forEach(window => {
+                window.visible = false;
               });
             }
           }
