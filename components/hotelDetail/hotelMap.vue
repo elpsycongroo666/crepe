@@ -55,7 +55,8 @@ export default {
       activeName: "1",   // 当前tab栏默认显示的数据
       scenicsList: [],   // 风景区/交通数据
       arr: [],    // 地图遍历的数据
-      kilo: [],  //公里数
+      kilo: [],  //公里数,
+      loading: true  //添加loading
     }
   },
 
@@ -84,6 +85,7 @@ export default {
         for (let j = 0; j < this.scenicsList.length; j++) {
           this.arr[j].push(this.scenicsList[j].name)
         }
+        this.loading = false
 
       })
     },
