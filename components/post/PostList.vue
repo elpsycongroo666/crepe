@@ -57,7 +57,7 @@
     <div class="post-item-One"
          v-else>
       <el-row class="post-cover-one">
-        <nuxt-link to="/post/detail"
+        <nuxt-link :to='"/post/detail?id="+data.id'
                    v-for="(item,index) in data.images"
                    :key="index">
           <img :src="item"
@@ -67,13 +67,13 @@
 
       <div class="post-content-one">
         <h4 class="post-title-one">
-          <nuxt-link to="/post/detail">
+          <nuxt-link :to='"/post/detail?id="+data.id'>
             {{data.title}}
           </nuxt-link>
         </h4>
 
         <p class="post-desc-one">
-          <nuxt-link to="/post/detail">
+          <nuxt-link :to='"/post/detail?id="+data.id'>
             {{data.summary}}
           </nuxt-link>
         </p>
