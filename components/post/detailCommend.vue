@@ -52,7 +52,7 @@
 
     <!-- 评论列表 -->
     <div class="cmt-list"
-         v-show="this.total">
+         v-show="this.commendList.length">
       <div class="cmt-item"
            v-for="(item,index) in commendList"
            :key="index">
@@ -86,26 +86,26 @@
         </div>
       </div>
 
-      <!-- 分页结构 -->
-      <div class="el-row is-justify-center el-row--flex"
-           style="margin-top:10px"
-           v-show="this.total">
-        <el-pagination @size-change="handleSizeChange"
-                       @current-change="handleCurrentChange"
-                       :current-page="pageIndex"
-                       :page-sizes="[2, 3, 4, 5]"
-                       :page-size="pageSize"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="total"
-                       class="el-page">
-        </el-pagination>
-      </div>
+    </div>
 
+    <!-- 分页结构 -->
+    <div class="el-row is-justify-center el-row--flex"
+         style="margin:20px 0"
+         v-show="this.commendList.length">
+      <el-pagination @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="pageIndex"
+                     :page-sizes="[2, 3, 4, 5]"
+                     :page-size="pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="total"
+                     class="el-page">
+      </el-pagination>
     </div>
 
     <!-- 抢占沙发 -->
     <div class="sofa"
-         v-show="!this.total">
+         v-show="!this.commendList.length">
       暂无评论，赶紧抢占沙发！
     </div>
 
@@ -126,7 +126,7 @@ export default {
   data () {
     return {
       commendList: [], //评论数据
-      total: 1,//总的评论数
+      total: 0,//总的评论数
       pageSize: 2, //当前页面显示数据的条数
       pageIndex: 0,//当前页码
       textarea: '', //评论框内容
@@ -137,8 +137,8 @@ export default {
       form: {
         content: "",//评论内容
         pics: [], //图片数组
-        post: this.$route.query.id,//文章id
-        follow: 0 //回复id
+        post: this.$route.query.id//文章id
+
       },
       tagVisible: false, //tag标签隐藏
       nickname: '' //存储tag标签@的人名字
@@ -150,6 +150,9 @@ export default {
       this.form.follow = ''
     },
     submit () { //评论提交
+      if (!this.tagVisible) {
+        this.form.follow = null
+      }
       console.log(this.form)
       this.$axios({
         url: '/comments',
@@ -242,6 +245,11 @@ export default {
   },
   mounted () {
     this.getCommendList()//获取评论数据
+    this.form = {
+      content: "",//评论内容
+      pics: [], //图片数组
+      post: this.$route.query.id,//文章id
+    }
   },
   components: {
     detailItemList
@@ -270,6 +278,12 @@ export default {
     $route () {
       // 刷新评论数据
       this.getCommendList()
+      this.tagVisible = false
+      this.form = {
+        content: "",//评论内容
+        pics: [], //图片数组
+        post: this.$route.query.id,//文章id
+      }
     }
   }
 }
