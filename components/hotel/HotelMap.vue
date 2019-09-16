@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-16 00:07:26
+ * @Last Modified time: 2019-09-16 10:13:32
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -54,6 +54,7 @@ export default {
   },
   data () {
     return {
+      /* --------------------------点标记数据-------------------------------- */
       iconStyle: {
         width: '22px',
         height: '36px',
@@ -63,6 +64,7 @@ export default {
         backgroundImage: 'url(https://webapi.amap.com/theme/v1.3/markers/b/mark_b.png)',
         backgroundSize: '22px 36px'
       },
+      /* --------------------------窗体数据------------------------------- */
       windowStyle: {
         padding: '2px 3px',
         color: '#666',
@@ -70,6 +72,8 @@ export default {
       },
       windows: [],
       window: '',
+      timer: null,
+      /* --------------------------地图配置数据----------------------------- */
       center: [118.92251, 31.75561],
       markers: [],
       plugin: [{
@@ -98,18 +102,22 @@ export default {
           temp.position = [item.location.longitude, item.location.latitude]
           //事件
           temp.events = {
-            mouseover () {
-              self.windows.forEach(window => {
-                window.visible = false;
-              });
-              self.window = self.windows[index];
-              self.$nextTick(() => {
-                self.window.visible = true;
-              });
+            mouseover () {// 鼠标移入
+              clearTimeout(self.timer)
+              self.timer = setTimeout(() => {
+                self.windows.forEach(window => {
+                  window.visible = false;
+                });
+                self.window = self.windows[index];
+                self.$nextTick(() => {
+                  self.window.visible = true;
+                });
+              }, 300)
             },
-            mouseout () {
-              self.windows.forEach(window => {
-                window.visible = false;
+            mouseout () { // 鼠标移出
+              clearTimeout(self.timer)
+              self.$nextTick(() => {
+                self.window.visible = false;
               });
             }
           }

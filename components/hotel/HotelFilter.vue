@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 22:19:28
+ * @Last Modified time: 2019-09-16 09:40:49
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -229,6 +229,7 @@ export default {
     }
   },
   computed: {
+    /* --------------------------获取选中选项功能-------------------------------- */
     levelSelected () { // 选中等级
       if (this.levels.length < 1) return ''
       const l = this.hotellevel_in.length

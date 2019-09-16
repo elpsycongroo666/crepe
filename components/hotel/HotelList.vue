@@ -2,7 +2,7 @@
  * @Author: Joe Yao
  * @Date: 2019-09-12 08:52:05
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 23:56:52
+ * @Last Modified time: 2019-09-16 10:06:38
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -103,6 +103,7 @@
 
       <div class="list__sider">
         <img class="list__img"
+             @click="handleClickHotel(item)"
              :src="item.photos"
              :alt="item.name">
       </div>
@@ -152,6 +153,7 @@
             <!-- 循环 -->
             <el-row v-for="(v,index) in item.products"
                     :key="index"
+                    @click.native="handleJump"
                     class="list__price-item"
                     type="flex"
                     justify="space-between"
@@ -173,7 +175,7 @@
     </div>
 
     <div class="list__nofoud"
-         v-if="hotelData.data">暂无符合条件的酒店</div>
+         v-if="!hotelData.data">暂无符合条件的酒店</div>
   </div>
   <!-- S 酒店首页模块 -->
 </template>
@@ -192,6 +194,9 @@ export default {
     })
   },
   methods: {
+    handleJump () {//临时测试跳转
+      window.location.href = 'https://hotels.ctrip.com/hotel/694679.html'
+    },
     handleClickHotel (item) {
       this.$router.push({ path: '/hotel/detail', query: { id: item.id } })
     }

@@ -7,7 +7,8 @@
 
 
 <template>
-  <div class="hotel">
+  <div class="hotel"
+       v-loading="loading">
     <div class="main">
       <!-- 面包屑导航 -->
       <div class="header_nav">
@@ -72,6 +73,7 @@ export default {
         stars: 0,
         scores: {}
       },
+      loading: true //添加loading
     }
   },
 
@@ -95,6 +97,7 @@ export default {
       this.hotelDetail.breadcrumb = this.hotelDetail.breadcrumb.split('>')
       // // 把数据储存到vuex中
       this.$store.commit('hotel/SETHOTEL_DETAIL', this.hotelDetail)
+      this.loading = false
     })
 
   }

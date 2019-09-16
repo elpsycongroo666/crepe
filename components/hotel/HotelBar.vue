@@ -35,8 +35,9 @@
 
     <div class="bar__crumb">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="null">酒店</el-breadcrumb-item>
-        <el-breadcrumb-item :to="null">酒店预定</el-breadcrumb-item>
+        <el-breadcrumb-item v-for="(item,index) in data"
+                            :to="item.path"
+                            :key="index">{{ item.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <!-- /工具栏面包屑模块 -->
@@ -49,14 +50,14 @@
 <script>
 
 export default {
-  components: {},
-  data () {
-    return {
-
+  props: {
+    data: { //面包屑导航数据
+      type: Array,
+      default: () => [
+        { name: '酒店', path: null },
+        { name: '酒店预定', path: null },
+      ]
     }
-  },
-  methods: {
-
   }
 }
 </script>

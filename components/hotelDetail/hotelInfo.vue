@@ -19,11 +19,10 @@
     <!-- 主要设施 -->
     <el-row class="assets_item">
       <el-col :span="4">主要设施</el-col>
-      <el-col :span="20"
+      <el-col :span="20">
+        <span class="assets_info"
               v-for="(item,index) in data.hotelassets"
-              :key="index">
-        <span class="assets_info">{{item.name}}</span>
-
+              :key="index">{{item.name}}</span>
       </el-col>
       <el-col :span="20"
               v-show="data.hotelassets.length === 0">

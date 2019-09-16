@@ -1,6 +1,6 @@
 // 准备酒店详情仓库
 export const state = () => ({
-  hotelDetail: {},
+  hotelDetail: {},  //酒店详情数据
   hotelData: { total: 0 }, //酒店数据
   scenicsData: [], //风景数据
   hotelOptions: {}, //酒店筛选数据

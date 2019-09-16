@@ -1,8 +1,8 @@
 /**
  * @Author: Joe Yao
- * @Date: 2019-09-12 08:52:05
+ * @Date: 2019-09-16 09:43:17
  * @Last Modified by: Joe Yao
- * @Last Modified time: 2019-09-15 00:57:14
+ * @Last Modified time: 2019-09-16 09:57:03
  */
 <style lang="less" scoped>
 @import "~styles/main.less";
@@ -36,7 +36,7 @@
     <el-pagination @size-change="handleSizeChange"
                    @current-change="handleCurrentChange"
                    :current-page="pageNum"
-                   :page-sizes="[5, 10, 15, 20]"
+                   :page-sizes="[10, 15, 20]"
                    :page-size="pageSize"
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="hotelData.total"
@@ -59,25 +59,23 @@ export default {
   },
   data () {
     return {
-      pageSize: 5,
-      pageNum: 1
+      pageSize: 5, //页面数据长度
+      pageNum: 1 //页数
     }
   },
   methods: {
-    handleSizeChange (val) {
+    handleSizeChange (val) {// 改变页面数据条数
       this.pageSize = val
       this.getData()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange (val) {// 跳转到第几页
       this.pageNum = val
       this.getData()
     },
-    getData () {
+    getData () { // 获取数据
       const { query } = this.$route
       this.$router.push({ path: '/hotel', query: { ...query, _start: (this.pageNum - 1) * this.pageSize, _limit: this.pageSize } })
     }
-  },
-  mounted () {
   }
 }
 </script>
