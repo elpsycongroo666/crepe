@@ -1,42 +1,55 @@
 <template>
   <el-row>
-    <el-col :span="18" class="left">
+    <el-col :span="18"
+            class="left">
       <h2>发现新攻略</h2>
       <p class="share">分享你的个人游记，让更多人看到哦~</p>
-      <el-input v-model="article.shareTitle" placeholder="请输入标题" class="title"></el-input>
+      <el-input v-model="article.shareTitle"
+                placeholder="请输入标题"
+                class="title"></el-input>
 
       <!-- 富文本框组件 -->
       <div class="editor">
-        <VueEditor class="size" ref="vueEditor" :config="config" />
+        <VueEditor class="size"
+                   ref="vueEditor"
+                   :config="config" />
       </div>
 
       <!-- 搜索选择城市 -->
       <div class="search">
         <span>选择城市</span>
-        <el-autocomplete
-          v-model="article.departCity"
-          :fetch-suggestions="querySearchAsync"
-          placeholder="请搜索游玩城市"
-        ></el-autocomplete>
+        <el-autocomplete v-model="article.departCity"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请搜索游玩城市"></el-autocomplete>
       </div>
 
       <!-- 发布按钮 -->
       <div class="public">
-        <el-button type="primary" size="small" @click="handlePublic">发布</el-button>&nbsp;&nbsp;
+        <el-button type="primary"
+                   size="small"
+                   @click="handlePublic">发布</el-button>&nbsp;&nbsp;
         <span>或者</span>
-        <a href="#" class="save" @click="handleSave">保存到草稿</a>
+        <a href="#"
+           class="save"
+           @click="handleSave">保存到草稿</a>
       </div>
     </el-col>
     <div class="aside">
-      <el-col :span="4" class="draft-box">
+      <el-col :span="4"
+              class="draft-box">
         <h4 class="draftTitle">草稿箱 ({{this.posts.length}})</h4>
         <div class="draftList">
-          <div class="draftItem" v-for="(item,index) in posts" :key="index">
-            <div class="draftPostTitle" @click="handleEditor(index)">{{item.shareTitle}} 
-              <i class="el-icon-edit"></i> 
-               <el-button type="text" class="delPost" @click="handleDelete(index)">删除</el-button>
+          <div class="draftItem"
+               v-for="(item,index) in posts"
+               :key="index">
+            <div class="draftPostTitle"
+                 @click="handleEditor(index)">{{item.shareTitle}}
+              <i class="el-icon-edit"></i>
+              <el-button type="text"
+                         class="delPost"
+                         @click="handleDelete(index)">删除</el-button>
             </div>
-            
+
             <p class="postTime">{{item.time}}</p>
           </div>
         </div>
@@ -58,7 +71,7 @@ export default {
   components: {
     VueEditor
   },
-  data() {
+  data () {
     return {
       config: {
         modules: {
@@ -79,14 +92,14 @@ export default {
         uploadImage: {
           url: "http://localhost:1337/upload",
           name: "files",
-          uploadBefore(file) {
+          uploadBefore (file) {
             return true;
           },
-          uploadProgress(res) {},
-          uploadSuccess(res, insert) {
+          uploadProgress (res) { },
+          uploadSuccess (res, insert) {
             insert("http://localhost:1337" + res.data[0].url);
           },
-          uploadError() {},
+          uploadError () { },
           showProgress: false
         },
 
@@ -94,14 +107,14 @@ export default {
           //url: "http://157.122.54.189:9095/upload",
           url: "http://localhost:1337/upload",
           name: "files",
-          uploadBefore(file) {
+          uploadBefore (file) {
             return true;
           },
-          uploadProgress(res) {},
-          uploadSuccess(res, insert) {
+          uploadProgress (res) { },
+          uploadSuccess (res, insert) {
             insert("http://localhost:1337" + res.data[0].url);
           },
-          uploadError() {}
+          uploadError () { }
         }
       },
       posts: [],
@@ -110,71 +123,71 @@ export default {
         departCity: "",
         departCode: "",
         content: "",
-        time:''
+        time: ''
       },
       city: []
     };
   },
 
-  mounted() {
+  mounted () {
     // this.posts=localStorage.getItem('posts')
-      this.posts = JSON.parse(localStorage.getItem("posts")) || []
+    this.posts = JSON.parse(localStorage.getItem("posts")) || []
   },
 
   methods: {
     //点击保存至草稿箱
-    handleSave() {
+    handleSave () {
       this.article.content = this.$refs.vueEditor.editor.root.innerHTML;
-       this.article.time = moment(new Date()).format('YYYY-MM-DD')
-      const posts = JSON.parse(localStorage.getItem("posts")) || [];    
+      this.article.time = moment(new Date()).format('YYYY-MM-DD')
+      const posts = JSON.parse(localStorage.getItem("posts")) || [];
       posts.unshift(this.article);
       localStorage.setItem("posts", JSON.stringify(posts));
-      this.posts=JSON.parse(localStorage.getItem('posts'));
+      this.posts = JSON.parse(localStorage.getItem('posts'));
       this.$message.success('保存成功');
-      this.article.shareTitle='';
-      this.article.departCity='';
-      this.$refs.vueEditor.editor.root.innerHTML='';
+      this.article.shareTitle = '';
+      this.article.departCity = '';
+      this.$refs.vueEditor.editor.root.innerHTML = '';
     },
 
     //点击标题编辑
-    handleEditor(index){
+    handleEditor (index) {
       // console.log(123)
       // const arr=JSON.parse(localStorage.getItem('posts'))
       // console.log(this.article)
       // console.log(index)
       // console.log(this.posts[index])
-      this.article.shareTitle=this.posts[index].shareTitle
-      this.$refs.vueEditor.editor.root.innerHTML=this.posts[index].content
-      this.article.departCity=this.posts[index].departCity
+      this.article.shareTitle = this.posts[index].shareTitle
+      this.$refs.vueEditor.editor.root.innerHTML = this.posts[index].content
+      this.article.departCity = this.posts[index].departCity
     },
 
     //点击删除
-    handleDelete(index){
+    handleDelete (index) {
       // console.log(123)
-      let arr=JSON.parse(localStorage.getItem('posts'))
+      let arr = JSON.parse(localStorage.getItem('posts'))
       // // console.log(arr)
-          
+
       //     //删除的提示
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-           //删除数据
-          arr.splice(index,1)
-          console.log(arr)
-          localStorage.setItem('posts',JSON.stringify(arr))
-          this.$message({
-            type: 'success',
-            message: '删除成功!',
-          });
-           window.location.reload()
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        //删除数据
+        arr.splice(index, 1)
+        console.log(arr)
+        localStorage.setItem('posts', JSON.stringify(arr))
+        this.$message({
+          type: 'success',
+          message: '删除成功!',
         });
+        window.location.reload()
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
 
     //发布文章
@@ -185,24 +198,27 @@ export default {
         url: '/posts',
         method: 'post',
         data: {
-          content:this.$refs.vueEditor.editor.root.innerHTML,
-          title:this.article.title,
-          city:this.article.departCity
+          content: this.$refs.vueEditor.editor.root.innerHTML,
+          title: this.article.title,
+          city: this.article.departCity
         },
         headers: {
           Authorization: `Bearer ${this.$store.state.user.userInfo.token}`
         }
       }).then(res => [
         console.log(res),
-        this.$message.success('发布成功')
+        this.$message.success('发布成功'),
+        setTimeout(() => {
+          this.$router.push('/post')
+        }, 2000)
       ]).catch(err => {
         console.log(err)
       })
 
     },
-    
+
     //选择城市
-    querySearchAsync(value, cb) {
+    querySearchAsync (value, cb) {
       if (!value) {
         return cb([]);
       }
@@ -234,9 +250,9 @@ export default {
     margin-top: 15px;
     font-weight: 500;
   }
-  .size{
+  .size {
     height: 400px;
-}
+  }
   .share {
     color: #999;
     font-size: 12px;
@@ -259,7 +275,7 @@ export default {
     }
   }
 }
-.aside{
+.aside {
   .draft-box {
     border: 1px solid #eee;
     padding: 15px;
@@ -279,24 +295,22 @@ export default {
       font-size: 14px;
       margin-bottom: 10px;
       position: relative;
-      .delPost{
-       float: right;
-      cursor: pointer;
-      color: pink
+      .delPost {
+        float: right;
+        cursor: pointer;
+        color: pink;
       }
       .postTime {
         color: #999;
       }
-      .draftPostTitle{
-        &:hover{
-        color:orange;
-        cursor: pointer;
-        text-decoration: underline
-      }
+      .draftPostTitle {
+        &:hover {
+          color: orange;
+          cursor: pointer;
+          text-decoration: underline;
+        }
       }
     }
   }
 }
-
-
 </style>
