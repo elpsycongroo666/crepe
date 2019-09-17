@@ -43,7 +43,7 @@
 
     <div class="search__price">
       <el-date-picker class="search__date"
-                      v-model="name"
+                      v-model="date"
                       type="daterange"
                       range-separator="至"
                       start-placeholder="开始日期"

@@ -13,7 +13,8 @@
         <el-col>
           <el-row type="flex"
                   justify="space-between"
-                  align="middle">
+                  align="middle"
+                  class="or">
             <span>{{ item.type }}</span>
             <i class="wn el-icon-arrow-right"></i>
           </el-row>
@@ -28,6 +29,7 @@
                       class="num">{{ i + 1 }}</el-col>
               <el-col :span="4"
                       class="city">
+                {{v.city}}
               </el-col>
               <el-col :span="18"
                       class="introduction">{{ v.desc }}</el-col>
@@ -172,6 +174,11 @@ export default {
   .show {
     position: absolute !important;
     top: 0 !important;
+  }
+  .or {
+    &:hover {
+      color: orange;
+    }
   }
 }
 </style>

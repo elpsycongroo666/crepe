@@ -19,7 +19,6 @@
       <!-- 内容部分 -->
       <div class="post-content"
            v-html="detailData.content">
-        {{detailData.content}}
       </div>
 
       <!-- 点评部分 -->

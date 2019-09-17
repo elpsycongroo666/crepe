@@ -18,6 +18,7 @@
         <nuxt-link to="/post"> 旅游攻略</nuxt-link>
         <nuxt-link :to="{name:'hotel',query:{city:$store.state.hotel.currentCity.id}}"> 酒店</nuxt-link>
         <nuxt-link to="/air"> 国内机票</nuxt-link>
+        <a href="https://github.com/elpsycongroo666/crepe">Github</a>
       </el-row>
 
       <!-- 登录跳转 -->
